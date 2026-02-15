@@ -6,12 +6,12 @@ public class Player : MonoBehaviour
 
     private StateMachine stateMachine;
 
-    private EntityState idleState;
+    private Player_IdleState idleState;
 
     private void Awake()
     {
         stateMachine = new StateMachine();
-        idleState = new EntityState(stateMachine, "Idle State");
+        idleState = new Player_IdleState(stateMachine, "Idle");
     }
 
     private void Start()
