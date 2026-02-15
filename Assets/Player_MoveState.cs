@@ -6,4 +6,14 @@ public class Player_MoveState : EntityState
     {
 
     }
+
+    override public void Update()
+    {
+        base.Update();
+
+        if (player.moveInput.x == 0)
+        {
+            stateMachine.ChangeState(player.idleState);
+        }
+    }  
 }

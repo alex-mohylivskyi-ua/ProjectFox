@@ -11,14 +11,9 @@ public class Player_IdleState : EntityState
     {
         base.Update();
 
-        // if (Input.GetKeyDown(KeyCode.D))
-        // {
-        //     stateMachine.ChangeState(player.moveState);
-        // }
-
-        // if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        // {
-        //     stateMachine.ChangeState(player.moveState);
-        // }
+        if (player.moveInput.x != 0)
+        {
+            stateMachine.ChangeState(player.moveState);
+        }
     }   
 }
