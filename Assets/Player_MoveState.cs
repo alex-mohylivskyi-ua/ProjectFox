@@ -17,5 +17,5 @@ public class Player_MoveState : EntityState
         {
             stateMachine.ChangeState(player.idleState);
         }
-    }  
+    }
 }
