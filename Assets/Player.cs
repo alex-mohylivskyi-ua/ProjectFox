@@ -9,13 +9,17 @@ public class Player : MonoBehaviour
     public Player_IdleState idleState { get; private set; }
     public Player_MoveState moveState { get; private set; }
     public Vector2 moveInput { get; private set; }
+    public Animator anim { get; private set; }
 
     private void Awake()
     {
+        anim = GetComponentInChildren<Animator>();
+
         input = new PlayerInputSet();
         stateMachine = new StateMachine();
-        idleState = new Player_IdleState(this, stateMachine, "Idle");
-        moveState = new Player_MoveState(this, stateMachine, "Move");
+
+        idleState = new Player_IdleState(this, stateMachine, "idle");
+        moveState = new Player_MoveState(this, stateMachine, "move");
     }
     
     private void OnEnable()
