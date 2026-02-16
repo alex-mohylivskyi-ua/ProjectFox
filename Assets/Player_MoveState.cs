@@ -11,6 +11,8 @@ public class Player_MoveState : EntityState
     {
         base.Update();
 
+        player.SetVelocity(player.moveInput.x * player.moveSpeed, rb.linearVelocity.y);
+
         if (player.moveInput.x == 0)
         {
             stateMachine.ChangeState(player.idleState);

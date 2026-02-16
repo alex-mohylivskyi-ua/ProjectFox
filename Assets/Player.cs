@@ -10,10 +10,15 @@ public class Player : MonoBehaviour
     public Player_MoveState moveState { get; private set; }
     public Vector2 moveInput { get; private set; }
     public Animator anim { get; private set; }
+    public Rigidbody2D rb { get; private set; }
+
+    [Header("Movement details")]
+    public float moveSpeed;
 
     private void Awake()
     {
         anim = GetComponentInChildren<Animator>();
+        rb = GetComponent<Rigidbody2D>();
 
         input = new PlayerInputSet();
         stateMachine = new StateMachine();
@@ -44,5 +49,10 @@ public class Player : MonoBehaviour
     {
         // It runs Update inside EntityState without having MonoBehaviour
         stateMachine.UpdateActiveState();
+    }
+
+    public void SetVelocity(float xVelocity, float yVelocity)
+    {
+        rb.linearVelocity = new Vector2(xVelocity, yVelocity);
     }
 }
