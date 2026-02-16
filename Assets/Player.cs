@@ -39,6 +39,6 @@ public class Player : MonoBehaviour
     private void Update()
     {
         // It runs Update inside EntityState without having MonoBehaviour
-        stateMachine.currentState.Update();
+        stateMachine.UpdateActiveState();
     }
 }
