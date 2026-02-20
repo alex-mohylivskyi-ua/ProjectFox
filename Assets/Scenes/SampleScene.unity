@@ -169,6 +169,8 @@ MonoBehaviour:
   moveSpeed: 8
   jumpForce: 20
   wallJumpForce: {x: 6, y: 12}
+  dashSpeed: 20
+  dashDuration: 1
   airMoveMultiplyier: 0.7
   wallSlideSlowMultiplyier: 0.3
   groundCheckDistance: 1.4
@@ -371,7 +373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &326705903
 BoxCollider2D:
   m_ObjectHideFlags: 0
