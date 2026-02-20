@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
     public Player_DashState dashState { get; private set; }
     public Player_BasicAttackState basicAttackState { get; private set; }
  
+    [Header("Attack details")]
+    public Vector2 attackVelocity;
+    public float attackVelocityDuration = .1f;
 
     [Header("Movement details")]
     [Range(0, 20)]
