@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
         wallSlideState = new Player_WallSlideState(this, stateMachine, "wallSlide");
         wallJumpState = new Player_WallJumpState(this, stateMachine, "jumpFall");
         dashState = new Player_DashState(this, stateMachine, "dash");
-        basicAttackState = new Player_BasicAttackState(this, stateMachine, "playerBasicAttack");
+        basicAttackState = new Player_BasicAttackState(this, stateMachine, "basicAttack");
     }
     
     private void OnEnable()
@@ -121,5 +121,10 @@ public class Player : MonoBehaviour
     {
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(wallCheckDistance * facingDirection, 0));
+    }
+
+    public void CallAnimationTrigger()
+    {
+        stateMachine.currentState.CallAnimationTrigger();
     }
 }

@@ -7,8 +7,13 @@ public class Player_BasicAttackState : EntityState
 
     }
 
-    public override void Enter()
+    public override void Update()
     {
-        base.Enter();
+        base.Update();
+
+        if (triggerCalled)
+        {
+            stateMachine.ChangeState(player.idleState);
+        }
     }
 }

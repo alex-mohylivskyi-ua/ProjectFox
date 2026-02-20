@@ -9,6 +9,7 @@ public abstract class EntityState
     protected Rigidbody2D rb;
     protected PlayerInputSet input;
     protected float stateTimer;
+    protected bool triggerCalled;
 
     public EntityState(Player player, StateMachine stateMachine, string animBoolName)
     {
@@ -28,6 +29,7 @@ public abstract class EntityState
         // Everytime state will be changed any Enter, Enter will be called
         // Debug.Log("I enter " + animBoolName);
         anim.SetBool(animBoolName, true);
+        triggerCalled = false;
     }
 
     public virtual void Update()
@@ -63,5 +65,10 @@ public abstract class EntityState
         }
 
         return true;
+    }
+
+    public void CallAnimationTrigger()
+    {
+        triggerCalled = true;
     }
 }
