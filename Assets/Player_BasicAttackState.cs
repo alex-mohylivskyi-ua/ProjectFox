@@ -5,6 +5,8 @@ public class Player_BasicAttackState : EntityState
     private int comboIndex = 0;
     private int maxComboIndex = 3;
     private float lastTimeAttacked;
+    private bool combatAttackQueued;
+    private int attackDirection;
 
     public Player_BasicAttackState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
@@ -17,7 +19,11 @@ public class Player_BasicAttackState : EntityState
     public override void Enter()
     {
         base.Enter();
-    
+
+        // Define attack direction according to player input
+        attackDirection = player.moveInput.x != 0 ? ((int)player.moveInput.x) : player.facingDirection;
+
+        combatAttackQueued = false;
         ResetComboIndexIfNeeded();
         anim.SetInteger("basicAttackIndex", comboIndex);
         ApplyAttackVelocity();
@@ -31,7 +37,24 @@ public class Player_BasicAttackState : EntityState
 
         HandleAttackVelocity();
 
+        if (input.Player.Attack.WasPressedThisFrame())
+        {
+            QueuedNextAttack();
+        }
+
         if (triggerCalled)
+        {
+            HandleStateExit();
+        }
+    }
+
+    private void HandleStateExit()
+    {
+        if (combatAttackQueued)
+        {
+            anim.SetBool(animBoolName, false);
+            player.EnterAttackStateWithDelay();
+        } else 
         {
             stateMachine.ChangeState(player.idleState);
         }
@@ -55,7 +78,7 @@ public class Player_BasicAttackState : EntityState
 
         Vector2 attackVelocity = player.attackVelocity[comboIndex];
 
-        player.SetVelocity(attackVelocity.x * player.facingDirection, attackVelocity.y);
+        player.SetVelocity(attackVelocity.x * attackDirection, attackVelocity.y);
     }
 
     private void HandlePlayerBasicAttackCount()
@@ -72,6 +95,14 @@ public class Player_BasicAttackState : EntityState
         if (Time.time > lastTimeAttacked + player.comboResetTime)
         {
             comboIndex = 0;
+        }
+    }
+
+    private void QueuedNextAttack()
+    {
+        if (comboIndex < maxComboIndex - 1)
+        {
+            combatAttackQueued = true;
         }
     }
 

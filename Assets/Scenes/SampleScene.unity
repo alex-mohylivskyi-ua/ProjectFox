@@ -168,7 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   attackVelocity:
   - {x: 4, y: 3}
-  - {x: -2, y: 4}
+  - {x: 2, y: 4}
   - {x: 5, y: 7}
   attackVelocityDuration: 0.1
   comboResetTime: 1
