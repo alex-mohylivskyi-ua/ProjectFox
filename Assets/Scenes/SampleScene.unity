@@ -172,6 +172,7 @@ MonoBehaviour:
   - {x: 5, y: 7}
   attackVelocityDuration: 0.1
   comboResetTime: 1
+  jumpAttackVelocity: {x: 3, y: -5}
   moveSpeed: 8
   jumpForce: 20
   wallJumpForce: {x: 6, y: 12}
