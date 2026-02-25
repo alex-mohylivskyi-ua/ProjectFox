@@ -18,6 +18,11 @@ public class Player_IdleState : Player_GroundedState
     {
         base.Update();
 
+        if (player.moveInput.x == player.facingDirection && player.wallDetected)
+        {
+            return;
+        }
+
         if (player.moveInput.x != 0)
         {
             stateMachine.ChangeState(player.moveState);

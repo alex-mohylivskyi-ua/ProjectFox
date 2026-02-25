@@ -53,6 +53,11 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     public bool groundDetected { get; private set; }
     public bool wallDetected { get; private set; }
+    public bool canWallSlide { get; private set; }
+    
+    [SerializeField] private Transform topWallCheck;
+    [SerializeField] private Transform bottomWallCheck;
+    
 
     private void Awake()
     {
@@ -124,14 +129,33 @@ public class Player : MonoBehaviour
 
     private void HandleCollisionDetection()
     {
+        RaycastHit2D topWallHit = Physics2D.Raycast(
+            topWallCheck.position,
+            Vector2.right * facingDirection,
+            wallCheckDistance,
+            whatIsGround
+        );
+
+        RaycastHit2D bottomWallHit = Physics2D.Raycast(
+            bottomWallCheck.position,
+            Vector2.right * facingDirection,
+            wallCheckDistance,
+            whatIsGround
+        );
+
+        wallDetected = topWallHit || bottomWallHit;
+        canWallSlide = topWallHit && bottomWallHit;
         groundDetected = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
-        wallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
     }
 
     private void OnDrawGizmos()
     {
+        // Ground check Gizmos line
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
-        Gizmos.DrawLine(transform.position, transform.position + new Vector3(wallCheckDistance * facingDirection, 0));
+        // Wall check Gizmos line top
+        Gizmos.DrawLine(topWallCheck.position, topWallCheck.position + new Vector3(wallCheckDistance * facingDirection, 0));
+        // Wall check Gizmos line bottom
+        Gizmos.DrawLine(bottomWallCheck.position, bottomWallCheck.position + new Vector3(wallCheckDistance * facingDirection, 0));
     }
 
     public void CallAnimationTrigger()

@@ -24,7 +24,7 @@ public class Player_WallSlideState : EntityState
             player.Flip();
         }
         
-        else if (!player.wallDetected)
+        else if (!player.canWallSlide)
         {
             stateMachine.ChangeState(player.fallState);
         }
