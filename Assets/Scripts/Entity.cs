@@ -40,7 +40,7 @@ public class Entity : MonoBehaviour
 
     private void Update()
     {
-        // It runs Update inside EntityState without having MonoBehaviour
+        // It runs Update inside PlayerState without having MonoBehaviour
         HandleCollisionDetection();
         stateMachine.UpdateActiveState();
     }
