@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 69226677}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.21, y: -1.181, z: 0}
+  m_LocalPosition: {x: -1.18, y: 1.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -168,6 +168,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40cfb7fb85e864f42935637fa5d2df42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  groundCheckDistance: 1.4
+  wallCheckDistance: 0.4
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  topWallCheck: {fileID: 1540696194}
+  bottomWallCheck: {fileID: 860560870}
   attackVelocity:
   - {x: 4, y: 3}
   - {x: 2, y: 4}
@@ -182,13 +189,6 @@ MonoBehaviour:
   dashDuration: 1
   airMoveMultiplyier: 0.7
   wallSlideSlowMultiplyier: 0.3
-  groundCheckDistance: 1.4
-  wallCheckDistance: 0.4
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
-  topWallCheck: {fileID: 1540696194}
-  bottomWallCheck: {fileID: 860560870}
 --- !u!70 &69226680
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -788,7 +788,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.9700002, y: 2.8309999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1474,7 +1474,7 @@ Transform:
   m_GameObject: {fileID: 1923486856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.9700002, y: 2.8309999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
