@@ -32,7 +32,7 @@ public class Enemy : Entity
         base.OnDrawGizmos();
         // Ground ahead check Gizmos line
         Gizmos.DrawLine(groundAheadCheck.position, groundAheadCheck.position + new Vector3(0, -groundCheckDistance));
-        Gizmos.color = Color.yellowNice;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawLine(playerCheck.position, new Vector3(playerCheck.position.x + (facingDirection * playerCheckDistance), playerCheck.position.y));
     }
     
