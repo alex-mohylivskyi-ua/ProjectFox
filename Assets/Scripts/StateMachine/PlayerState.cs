@@ -15,8 +15,6 @@ public abstract class PlayerState: EntityState
         input = player.input;
     }
 
-    
-
     // public - can be called from outside, virtual - can be inherited and extended in new instance
     public override void Update()
     {

@@ -15,6 +15,11 @@ public class Enemy : Entity
     public float moveAnimSpeedMultiplier = 1;
     public float idleTime = 2;
     public bool groundAheadDetected = false;
+
+    [Header("Battle details")] 
+    // [SerializeField] private float attackDistance = 2;
+    [field: SerializeField] public float attackDistance { get; private set; } = 2f;
+    [field: SerializeField] public float battleMoveSpeed { get; private set; } = 3;
     
     [Header("Player detection details")]
     [SerializeField] private LayerMask whatIsPlayer;
@@ -34,6 +39,8 @@ public class Enemy : Entity
         Gizmos.DrawLine(groundAheadCheck.position, groundAheadCheck.position + new Vector3(0, -groundCheckDistance));
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(playerCheck.position, new Vector3(playerCheck.position.x + (facingDirection * playerCheckDistance), playerCheck.position.y));
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(playerCheck.position, new Vector3(playerCheck.position.x + (facingDirection * attackDistance), playerCheck.position.y));
     }
     
     public RaycastHit2D PlayerDetection()
