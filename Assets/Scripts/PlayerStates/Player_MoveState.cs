@@ -15,7 +15,7 @@ public class Player_MoveState : Player_GroundedState
     {
         base.Enter();
 
-        Debug.Log("We are in Move state");
+        // Debug.Log("We are in Move state");
     }
 
     override public void Update()

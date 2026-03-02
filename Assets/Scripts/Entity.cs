@@ -8,14 +8,15 @@ public class Entity : MonoBehaviour
     public Rigidbody2D rb { get; private set; }
     protected StateMachine stateMachine;
 
-    private bool facingRight = true;
-    public int facingDirection { get; private set; } = 1;
+    [SerializeField] private bool facingRight = true;
+    [SerializeField] public int facingDirection = 1;
     
 
     [Header("Collision detection")]
-    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] protected float groundCheckDistance;
     [SerializeField] private float wallCheckDistance;
-    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] protected LayerMask whatIsGround;
     public bool groundDetected { get; private set; }
     public bool wallDetected { get; private set; }
     public bool canWallSlide { get; private set; }
@@ -38,7 +39,7 @@ public class Entity : MonoBehaviour
         
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         // It runs Update inside PlayerState without having MonoBehaviour
         HandleCollisionDetection();
@@ -69,7 +70,7 @@ public class Entity : MonoBehaviour
         facingDirection = facingDirection * -1;
     }
 
-    private void HandleCollisionDetection()
+    protected virtual void HandleCollisionDetection()
     {
         RaycastHit2D topWallHit = Physics2D.Raycast(
             topWallCheck.position,
@@ -78,26 +79,34 @@ public class Entity : MonoBehaviour
             whatIsGround
         );
 
-        RaycastHit2D bottomWallHit = Physics2D.Raycast(
-            bottomWallCheck.position,
-            Vector2.right * facingDirection,
-            wallCheckDistance,
-            whatIsGround
-        );
+        RaycastHit2D bottomWallHit = default;
+        if (bottomWallCheck != null)
+        {
+            bottomWallHit = Physics2D.Raycast(
+                bottomWallCheck.position,
+                Vector2.right * facingDirection,
+                wallCheckDistance,
+                whatIsGround
+            );
+        }
 
         wallDetected = topWallHit || bottomWallHit;
         canWallSlide = topWallHit && bottomWallHit;
-        groundDetected = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
+        groundDetected = Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
 
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         // Ground check Gizmos line
-        Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
+        Gizmos.DrawLine(groundCheck.position, groundCheck.position + new Vector3(0, -groundCheckDistance));
         // Wall check Gizmos line top
         Gizmos.DrawLine(topWallCheck.position, topWallCheck.position + new Vector3(wallCheckDistance * facingDirection, 0));
-        // Wall check Gizmos line bottom
-        Gizmos.DrawLine(bottomWallCheck.position, bottomWallCheck.position + new Vector3(wallCheckDistance * facingDirection, 0));
+
+        if (bottomWallCheck != null)
+        {
+            // Wall check Gizmos line bottom
+            Gizmos.DrawLine(bottomWallCheck.position, bottomWallCheck.position + new Vector3(wallCheckDistance * facingDirection, 0));    
+        }
     }
 
     public void CallAnimationTrigger()

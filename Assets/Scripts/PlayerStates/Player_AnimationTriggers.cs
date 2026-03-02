@@ -11,7 +11,7 @@ public class Player_AnimationTriggers : MonoBehaviour
 
     private void CurrentStateTrigger()
     {
-        Debug.Log("Attack over!");
+        // Debug.Log("Attack over!");
         player.CallAnimationTrigger();
     }
 }
