@@ -8,22 +8,37 @@ public class Enemy_BattleState : EnemyState
     {
     }
 
+    public override void Enter()
+    {
+        base.Enter();
+        
+        Debug.Log("inside battle state");
+    }
+
     public override void Update()
     {
         base.Update();
+
+        if ((enemy.lastTimeWasInBattle + enemy.battleTimeDuration) <= enemy.inGameTime)
+        {
+            stateMachine.ChangeState(enemy.idleState);
+        }
 
         if (player == null)
         {
             player = enemy.PlayerDetection().transform;    
         }
 
-        if (WithinAttachRange())
+        if (WithinAttachRange() && enemy.PlayerDetection())
         {
             stateMachine.ChangeState(enemy.attackState);
         }
         else
         {
-            enemy.SetVelocity(enemy.battleMoveSpeed * DirectionToPlayer(), enemy.rb.linearVelocity.y);
+            if (distanceToPlayer() > 0.26)
+            {
+                enemy.SetVelocity(enemy.battleMoveSpeed * DirectionToPlayer(), enemy.rb.linearVelocity.y);
+            }
         }
     }
 

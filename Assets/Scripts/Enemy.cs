@@ -20,6 +20,9 @@ public class Enemy : Entity
     // [SerializeField] private float attackDistance = 2;
     [field: SerializeField] public float attackDistance { get; private set; } = 2f;
     [field: SerializeField] public float battleMoveSpeed { get; private set; } = 3;
+    public float battleTimeDuration = 5;
+    public float lastTimeWasInBattle;
+    public float inGameTime;
     
     [Header("Player detection details")]
     [SerializeField] private LayerMask whatIsPlayer;
@@ -29,7 +32,10 @@ public class Enemy : Entity
     protected override void Update()
     {
         base.Update();
-
+        
+        inGameTime = Time.time;
+        if (PlayerDetection() == true)
+            lastTimeWasInBattle = Time.time;
     }
 
     protected override void OnDrawGizmos()
@@ -49,11 +55,11 @@ public class Enemy : Entity
         // if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         if (hit && hit.collider.CompareTag("Player"))
         {
-            Debug.Log("Hit Player");
+            // Debug.Log("Hit Player");
             return hit;
         }
         
-        Debug.Log("No Hit Player");
+        // Debug.Log("No Hit Player");
 
         return default;
     }
