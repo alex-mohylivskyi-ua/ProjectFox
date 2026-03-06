@@ -21,9 +21,8 @@ public abstract class PlayerState: EntityState
         // we're going to run logic of the state
         // Debug.Log("I run update of " + animBoolName);
         base.Update();
+        
         stateTimer -= Time.deltaTime;
-
-        anim.SetFloat("yVelocity", rb.linearVelocity.y);
 
         if (input.Player.Dash.WasPressedThisFrame() && CanDash())
         {
@@ -44,5 +43,14 @@ public abstract class PlayerState: EntityState
         }
 
         return true;
+    }
+
+    public override void UpdateAnimationParameters()
+    //this method is called in EntityState.Update();
+    //We can override it here and updated version will be called from Entity
+    {
+        base.UpdateAnimationParameters();
+        
+        anim.SetFloat("yVelocity", rb.linearVelocity.y);
     }
 }

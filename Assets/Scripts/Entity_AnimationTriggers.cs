@@ -12,6 +12,6 @@ public class Entity_AnimationTriggers : MonoBehaviour
     private void CurrentStateTrigger()
     {
         // Debug.Log("Attack over!");
-        entity.CallAnimationTrigger();
+        entity.CurrentStateAnimationTrigger();
     }
 }
