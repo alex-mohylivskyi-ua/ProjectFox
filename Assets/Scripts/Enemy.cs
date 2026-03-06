@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Enemy : Entity
 {
@@ -22,8 +23,11 @@ public class Enemy : Entity
     [field: SerializeField] public float battleMoveSpeed { get; private set; } = 3;
     public float battleTimeDuration = 5;
     public float lastTimeWasInBattle;
-    public float inGameTime;
-    
+    public float minRetreatDistance = 1;
+    public Vector2 retreatVelocity;
+    public float inGameTime { get; private set; }
+    public Transform player;
+
     [Header("Player detection details")]
     [SerializeField] private LayerMask whatIsPlayer;
     [SerializeField] private Transform playerCheck;
@@ -32,10 +36,18 @@ public class Enemy : Entity
     protected override void Update()
     {
         base.Update();
+
+        UpdateInGameTime();
         
-        inGameTime = Time.time;
-        if (PlayerDetection() == true)
-            lastTimeWasInBattle = Time.time;
+        if (player == null)
+        {
+            player = PlayerDetected().transform;
+        }
+
+        if (PlayerDetected() == true)
+        {
+            UpdateBattleTimer();    
+        }
     }
 
     protected override void OnDrawGizmos()
@@ -47,21 +59,69 @@ public class Enemy : Entity
         Gizmos.DrawLine(playerCheck.position, new Vector3(playerCheck.position.x + (facingDirection * playerCheckDistance), playerCheck.position.y));
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(playerCheck.position, new Vector3(playerCheck.position.x + (facingDirection * attackDistance), playerCheck.position.y));
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(playerCheck.position, new Vector3(playerCheck.position.x + (facingDirection * minRetreatDistance), playerCheck.position.y));
+    }
+
+    public bool BattleTimeIsOver()
+    {
+        return inGameTime >= lastTimeWasInBattle + battleTimeDuration;
+    }
+
+    public bool WithinAttackRange()
+    {
+        return distanceToPlayer() <= attackDistance;
+    }
+
+    public void Move(float x, float y)
+    {
+        SetVelocity(x, y);
+    }
+
+    public int DirectionToPlayer()
+    {
+        if (player == null)
+        {
+            return 0;
+        }
+        return player.transform.position.x > transform.position.x ? 1 : -1;
     }
     
-    public RaycastHit2D PlayerDetection()
+    public float distanceToPlayer()
+    {
+        if (player == null)
+        {
+            return float.MaxValue;
+        }
+
+        return Math.Abs(transform.position.x - player.transform.position.x);
+    }
+
+    private void UpdateBattleTimer()
+    {
+        lastTimeWasInBattle = Time.time;
+    }
+
+    private void UpdateInGameTime()
+    {
+        inGameTime = Time.time;
+    }
+
+    public RaycastHit2D PlayerDetected()
     {
         RaycastHit2D hit = Physics2D.Raycast(playerCheck.position, Vector2.right * facingDirection, playerCheckDistance,  whatIsPlayer | whatIsGround);
         // if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         if (hit && hit.collider.CompareTag("Player"))
         {
-            // Debug.Log("Hit Player");
             return hit;
         }
         
-        // Debug.Log("No Hit Player");
-
         return default;
+    }
+
+    public bool ShouldRetreat()
+    {
+        return minRetreatDistance > distanceToPlayer();
     }
 
     protected override void HandleCollisionDetection()

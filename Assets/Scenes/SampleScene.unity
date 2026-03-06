@@ -1394,6 +1394,11 @@ MonoBehaviour:
   groundAheadDetected: 0
   <attackDistance>k__BackingField: 2
   <battleMoveSpeed>k__BackingField: 3
+  battleTimeDuration: 5
+  lastTimeWasInBattle: 0
+  minRetreatDistance: 1
+  retreatVelocity: {x: 5, y: 3}
+  player: {fileID: 0}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
