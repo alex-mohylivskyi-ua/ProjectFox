@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 69226680}
   - component: {fileID: 69226681}
   - component: {fileID: 69226682}
+  - component: {fileID: 69226683}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -275,7 +276,20 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 256
-  targetColliders: []
+--- !u!114 &69226683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69226677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2d5bba9d6334035924eea579a4966d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_Health
+  maxHP: 3
+  isDead: 0
 --- !u!1 &219455829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1410,6 +1424,7 @@ GameObject:
   - component: {fileID: 1110672148}
   - component: {fileID: 1110672149}
   - component: {fileID: 1110672150}
+  - component: {fileID: 1110672151}
   m_Layer: 8
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
@@ -1555,7 +1570,20 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 128
-  targetColliders: []
+--- !u!114 &1110672151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110672145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2d5bba9d6334035924eea579a4966d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_Health
+  maxHP: 3
+  isDead: 0
 --- !u!1 &1190524820
 GameObject:
   m_ObjectHideFlags: 0
