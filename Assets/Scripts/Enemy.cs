@@ -50,6 +50,18 @@ public class Enemy : Entity
         }
     }
 
+    public void TryEnterBattleState(Transform player)
+    {
+        if (stateMachine.currentState == battleState ||
+            stateMachine.currentState == attackState)
+        {
+            return;
+        }
+
+        this.player = player;
+        stateMachine.ChangeState(battleState);
+    }
+
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
@@ -97,7 +109,7 @@ public class Enemy : Entity
         return Math.Abs(transform.position.x - player.transform.position.x);
     }
 
-    private void UpdateBattleTimer()
+    public void UpdateBattleTimer()
     {
         lastTimeWasInBattle = Time.time;
     }

@@ -11,6 +11,8 @@ public class Enemy_BattleState : EnemyState
     {
         base.Enter();
 
+        enemy.UpdateBattleTimer();
+
         if (enemy.ShouldRetreat())
         {
             // We use linearVelocity instead of enemy.Move(), to skip enemy Flip()

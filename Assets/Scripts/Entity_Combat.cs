@@ -30,7 +30,7 @@ public class Entity_Combat : MonoBehaviour
 
             if (targetHealth != null)
             {
-                targetHealth.TakeDamage(1);
+                targetHealth.TakeDamage(1, transform);
             }
         }
     }
