@@ -7,6 +7,7 @@ public class Entity_Combat : MonoBehaviour
     [SerializeField] private Transform targetCheck;
     [SerializeField] private float targetCheckRadius = 1;
     [SerializeField] private LayerMask whatIsTarget;
+    [SerializeField] private float damage = 1;
     
     private Collider2D[] GetDetectedColliders()
     {
@@ -30,7 +31,7 @@ public class Entity_Combat : MonoBehaviour
 
             if (targetHealth != null)
             {
-                targetHealth.TakeDamage(1, transform);
+                targetHealth.TakeDamage(damage, transform);
             }
         }
     }

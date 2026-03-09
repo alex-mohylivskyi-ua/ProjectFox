@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -20,11 +21,11 @@ public class Entity : MonoBehaviour
     public bool groundDetected { get; private set; }
     public bool wallDetected { get; private set; }
     public bool canWallSlide { get; private set; }
-   
     
     [SerializeField] private Transform topWallCheck;
     [SerializeField] private Transform bottomWallCheck;
     
+    private Entity_Knockback knockbackController;
 
     // protected virtual void Awake() - need to override it later
     protected virtual void Awake()
@@ -32,6 +33,7 @@ public class Entity : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         stateMachine = new StateMachine();
+        knockbackController = GetComponent<Entity_Knockback>();
     }
 
     protected virtual void Start()
@@ -48,6 +50,9 @@ public class Entity : MonoBehaviour
 
     public void SetVelocity(float xVelocity, float yVelocity)
     {
+        if (knockbackController.isKnocked)
+            return;
+        
         rb.linearVelocity = new Vector2(xVelocity, yVelocity);
         HandleFlip(xVelocity);
     }

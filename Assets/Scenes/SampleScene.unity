@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 69226682}
   - component: {fileID: 69226683}
   - component: {fileID: 69226684}
+  - component: {fileID: 69226685}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -277,6 +278,7 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 256
+  damage: 40
 --- !u!114 &69226683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2d5bba9d6334035924eea579a4966d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Health
-  maxHP: 3
+  maxHP: 100
   isDead: 0
 --- !u!114 &69226684
 MonoBehaviour:
@@ -305,6 +307,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entity_VFX
   onDamageMaterial: {fileID: 2100000, guid: 05449681067cb4277ab72d7b804cb4f9, type: 2}
   onDamageVFXDuration: 0.2
+--- !u!114 &69226685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69226677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4e3e40c1476435fa288d0de7886dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_Knockback
+  knockbackDuration: 0.3
+  knockbackDirection: {x: 8, y: 8}
+  heavyKnockbackDirection: {x: 20, y: 20}
+  heavyKnockbackDuration: 0.4
+  heavyDamageThreshold: 0.3
+  isKnocked: 0
 --- !u!1 &219455829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,6 +1461,7 @@ GameObject:
   - component: {fileID: 1110672150}
   - component: {fileID: 1110672151}
   - component: {fileID: 1110672152}
+  - component: {fileID: 1110672153}
   m_Layer: 8
   m_Name: Enemy_Skeleton
   m_TagString: Untagged
@@ -1586,6 +1607,7 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 128
+  damage: 10
 --- !u!114 &1110672151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1598,7 +1620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db2bf2fb1e14a4761847e15d2b2964b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy_Health
-  maxHP: 3
+  maxHP: 100
   isDead: 0
 --- !u!114 &1110672152
 MonoBehaviour:
@@ -1614,6 +1636,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Entity_VFX
   onDamageMaterial: {fileID: 2100000, guid: 05449681067cb4277ab72d7b804cb4f9, type: 2}
   onDamageVFXDuration: 0.2
+--- !u!114 &1110672153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110672145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4e3e40c1476435fa288d0de7886dd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Entity_Knockback
+  knockbackDuration: 0.3
+  knockbackDirection: {x: 8, y: 8}
+  heavyKnockbackDirection: {x: 20, y: 20}
+  heavyKnockbackDuration: 0.4
+  heavyDamageThreshold: 0.3
+  isKnocked: 0
 --- !u!1 &1190524820
 GameObject:
   m_ObjectHideFlags: 0
