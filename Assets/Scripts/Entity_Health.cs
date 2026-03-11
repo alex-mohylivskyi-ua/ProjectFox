@@ -7,13 +7,15 @@ public class Entity_Health : MonoBehaviour
     [SerializeField] protected bool isDead;
     
     private Entity_VFX entityVFX;
-    private Entity_Knockback knockbackController; 
+    private Entity_Knockback knockbackController;
+    private Entity entity;
 
     protected virtual void Awake()
     {
         currentHP = maxHP;
         entityVFX = GetComponent<Entity_VFX>();
         knockbackController = GetComponent<Entity_Knockback>();
+        entity = GetComponent<Entity>();
     }
 
     public virtual void TakeDamage(float damage, Transform damageDealer)
@@ -37,6 +39,7 @@ public class Entity_Health : MonoBehaviour
     private void Die()
     {
         isDead = true;
+        entity.EntityDeath();
         Debug.Log("Died: " + isDead);
     }
 

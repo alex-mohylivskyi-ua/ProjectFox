@@ -41,6 +41,10 @@ public class Entity : MonoBehaviour
         
     }
 
+    public virtual void EntityDeath()
+    {
+    }
+
     protected virtual void Update()
     {
         // It runs Update inside PlayerState without having MonoBehaviour

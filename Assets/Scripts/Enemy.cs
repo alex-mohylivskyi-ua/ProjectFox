@@ -7,6 +7,7 @@ public class Enemy : Entity
     public Enemy_MoveState moveState;
     public Enemy_AttackState attackState;
     public Enemy_BattleState battleState;
+    public Enemy_DeadState deadState;
 
     [Header("Movement details")]
     [SerializeField] public float moveSpeed;
@@ -60,6 +61,13 @@ public class Enemy : Entity
 
         this.player = player;
         stateMachine.ChangeState(battleState);
+    }
+
+    public override void EntityDeath()
+    {
+        base.EntityDeath();
+        
+        stateMachine.ChangeState(deadState);
     }
 
     protected override void OnDrawGizmos()
