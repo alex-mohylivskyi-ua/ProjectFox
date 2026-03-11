@@ -15,6 +15,7 @@ public class Player : Entity
     public Player_DashState dashState { get; private set; }
     public Player_BasicAttackState basicAttackState { get; private set; }
     public Player_JumpAttackState jumpAttackState { get; private set; }
+    public Player_DeadState deadState { get; private set; }
 
 
 
@@ -42,7 +43,14 @@ public class Player : Entity
     public float airMoveMultiplyier = 0.7f;
     [Range(0, 1)]
     public float wallSlideSlowMultiplyier = 0.7f;
-    
+
+    // Here we use Entity_Health controller even without requiring it;
+    public override void EntityDeath()
+    {
+        base.EntityDeath();
+        
+        stateMachine.ChangeState(deadState);
+    }
 
     protected override void Awake()
     {
@@ -57,6 +65,7 @@ public class Player : Entity
         dashState = new Player_DashState(this, stateMachine, "dash");
         basicAttackState = new Player_BasicAttackState(this, stateMachine, "basicAttack");
         jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
+        deadState = new Player_DeadState(this, stateMachine, "dead");
     }
 
     protected void OnEnable()

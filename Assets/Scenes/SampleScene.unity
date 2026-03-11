@@ -324,7 +324,6 @@ MonoBehaviour:
   heavyKnockbackDirection: {x: 20, y: 20}
   heavyKnockbackDuration: 0.4
   heavyDamageThreshold: 0.3
-  isKnocked: 0
 --- !u!1 &219455829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,7 +1606,7 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 128
-  damage: 10
+  damage: 25
 --- !u!114 &1110672151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1653,7 +1652,6 @@ MonoBehaviour:
   heavyKnockbackDirection: {x: 20, y: 20}
   heavyKnockbackDuration: 0.4
   heavyDamageThreshold: 0.3
-  isKnocked: 0
 --- !u!1 &1190524820
 GameObject:
   m_ObjectHideFlags: 0
