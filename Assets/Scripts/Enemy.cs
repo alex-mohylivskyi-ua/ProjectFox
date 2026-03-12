@@ -150,4 +150,20 @@ public class Enemy : Entity
         Debug.Log("HandleCollisionDetection second");
         groundAheadDetected = Physics2D.Raycast(groundAheadCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
+
+    private void OnEnable()
+    {
+        Player.OnPlayerDeath += HandlePlayerDeath;
+    }
+    
+    private void OnDisable()
+    {
+        Player.OnPlayerDeath -= HandlePlayerDeath;
+    }
+
+    private void HandlePlayerDeath()
+    {
+        Debug.Log("HandlePlayerDeath");
+        stateMachine.ChangeState(idleState);
+    }
 }

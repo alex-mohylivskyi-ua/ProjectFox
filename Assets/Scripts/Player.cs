@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class Player : Entity
 {
@@ -43,12 +44,24 @@ public class Player : Entity
     public float airMoveMultiplyier = 0.7f;
     [Range(0, 1)]
     public float wallSlideSlowMultiplyier = 0.7f;
+    
+    // Events
+    public static event Action OnPlayerDeath;
+    
 
     // Here we use Entity_Health controller even without requiring it;
     public override void EntityDeath()
     {
+        // Here we trigger event
+        OnPlayerDeath?.Invoke();
+        
+        // We set false to prevent Enemy detecting player, what triggers moving to Enemy_BattleState
+        rb.simulated = false;
+        
         base.EntityDeath();
         
+        
+        Debug.Log("Player is dead");
         stateMachine.ChangeState(deadState);
     }
 
