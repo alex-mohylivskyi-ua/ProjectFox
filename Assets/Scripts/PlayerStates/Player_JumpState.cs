@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player_JumpState : Player_AiredState
 {
+    private bool jumpCutApplied;
     public Player_JumpState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
 
@@ -11,12 +12,19 @@ public class Player_JumpState : Player_AiredState
     {
         base.Enter();
 
+        jumpCutApplied = false;
         player.SetVelocity(rb.linearVelocity.x, player.jumpForce);
     }
 
     override public void Update()
     {
         base.Update();
+        
+        if (input.Player.Jump.WasReleasedThisFrame() && rb.linearVelocity.y > 0 && !jumpCutApplied)
+        {
+            jumpCutApplied = true;
+            player.SetVelocity(rb.linearVelocity.x, rb.linearVelocity.y * player.jumpCutMultiplier);
+        }
 
         if (rb.linearVelocity.y < 0 && stateMachine.currentState != player.jumpAttackState)
         {

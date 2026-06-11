@@ -33,7 +33,8 @@ public class Player : Entity
     [Range(0, 20)]
     public float moveSpeed;
     [Range(0, 20)]
-    public float jumpForce = 5;
+    [SerializeField] public float jumpForce = 5;
+    [Range(0.1f, 1f)] public float jumpCutMultiplier = 0.5f;
     public Vector2 wallJumpForce;
     
     public Vector2 moveInput { get; private set; }
