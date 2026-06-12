@@ -11,14 +11,17 @@ public class Player_GroundedState : PlayerState
     {
         base.Update();
 
-        if (input.Player.Jump.WasPressedThisFrame())
+        if (player.jumpBuffered)
         {
+            player.ConsumeJumpBuffer();
             stateMachine.ChangeState(player.jumpState);
+            return;
         }
 
         if (rb.linearVelocity.y < 0 && !player.groundDetected)
         {
             stateMachine.ChangeState(player.fallState);
+            return;
         }
 
         if (input.Player.Attack.WasPressedThisFrame())

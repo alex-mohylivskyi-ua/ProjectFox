@@ -2,6 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System;
 
+// Player
+//     відповідає за:
+// input
+//     таймінги (buffer, coyote time)
+// рішення
+
 public class Player : Entity
 {
     public PlayerInputSet input { get; private set; }
@@ -17,6 +23,7 @@ public class Player : Entity
     public Player_BasicAttackState basicAttackState { get; private set; }
     public Player_JumpAttackState jumpAttackState { get; private set; }
     public Player_DeadState deadState { get; private set; }
+    public PlayerMovement movement { get; private set; }
 
 
 
@@ -34,6 +41,9 @@ public class Player : Entity
     public float moveSpeed;
     [Range(0, 20)]
     [SerializeField] public float jumpForce = 5;
+    [SerializeField] public float jumpBufferTime = 0.1f;
+    private float jumpBufferTimer;
+    public bool jumpBuffered => jumpBufferTimer > 0;
     [Range(0.1f, 1f)] public float jumpCutMultiplier = 0.5f;
     public Vector2 wallJumpForce;
     
@@ -80,6 +90,8 @@ public class Player : Entity
         basicAttackState = new Player_BasicAttackState(this, stateMachine, "basicAttack");
         jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
         deadState = new Player_DeadState(this, stateMachine, "dead");
+
+        movement = new PlayerMovement(this, rb);
     }
 
     protected void OnEnable()
@@ -94,6 +106,12 @@ public class Player : Entity
     {
         base.Start();
         stateMachine.Initialize(idleState);
+    }
+    
+    protected override void Update()
+    {
+        HandleJumpBuffer();
+        base.Update();
     }
 
     private void OnDisable()
@@ -114,5 +132,22 @@ public class Player : Entity
     {
         yield return new WaitForEndOfFrame();
         stateMachine.ChangeState(basicAttackState);
+    }
+
+    private void HandleJumpBuffer()
+    {
+        if (input.Player.Jump.WasPressedThisFrame())
+        {
+            jumpBufferTimer = jumpBufferTime;
+        }
+        else if (jumpBufferTimer > 0)
+        {
+            jumpBufferTimer -= Time.deltaTime;
+        }
+    }
+    
+    public void ConsumeJumpBuffer()
+    {
+        jumpBufferTimer = 0;
     }
 }

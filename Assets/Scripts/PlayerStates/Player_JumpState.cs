@@ -13,7 +13,8 @@ public class Player_JumpState : Player_AiredState
         base.Enter();
 
         jumpCutApplied = false;
-        player.SetVelocity(rb.linearVelocity.x, player.jumpForce);
+        player.movement.Jump(player.jumpForce);
+        // player.SetVelocity(rb.linearVelocity.x, player.jumpForce); OLD Jump
     }
 
     override public void Update()
@@ -23,7 +24,7 @@ public class Player_JumpState : Player_AiredState
         if (!input.Player.Jump.IsPressed() && rb.linearVelocity.y > 0 && !jumpCutApplied)
         {
             jumpCutApplied = true;
-            player.SetVelocity(rb.linearVelocity.x, rb.linearVelocity.y * player.jumpCutMultiplier);
+            player.movement.JumpCut(player.jumpCutMultiplier);
         }
 
         if (rb.linearVelocity.y < 0 && stateMachine.currentState != player.jumpAttackState)
