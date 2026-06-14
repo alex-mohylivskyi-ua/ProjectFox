@@ -10,12 +10,14 @@ public class Player_AiredState : PlayerState
     override public void Update()
     {
         base.Update();
-
-        if (player.moveInput.x !=0)
-        {
-            player.SetVelocity(player.moveInput.x * (player.moveSpeed * player.airMoveMultiplyier), rb.linearVelocity.y);
-        }
-
+        
+        player.movement.AirMove(
+            player.moveInput.x,
+            player.moveSpeed,
+            player.airMoveMultiplyier,
+            player.airMoveDeceleration
+        );
+        
         if (input.Player.Attack.WasPressedThisFrame())
         {
             stateMachine.ChangeState(player.jumpAttackState);

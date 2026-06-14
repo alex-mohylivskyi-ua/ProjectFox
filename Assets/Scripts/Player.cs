@@ -40,21 +40,24 @@ public class Player : Entity
     [Range(0, 20)]
     public float moveSpeed;
     [Range(0, 20)]
-    [SerializeField] public float jumpForce = 5;
+    [SerializeField] public float jumpForce = 20;
     [SerializeField] public float jumpBufferTime = 0.1f;
     private float jumpBufferTimer;
     public bool jumpBuffered => jumpBufferTimer > 0;
-    [Range(0.1f, 1f)] public float jumpCutMultiplier = 0.5f;
+    public bool bufferedJumpReleased { get; private set; }
+    [Range(0.1f, 1f)] public float jumpCutMultiplier = 0.4f;
     public Vector2 wallJumpForce;
+    [Range(0, 1)]
+    public float airMoveMultiplyier = 0.9f; // TODO HK 0.9 - 1
+    [Range(0, 100)]
+    public float airMoveDeceleration = 10f; // Increase
+    [Range(0, 1)]
+    public float wallSlideSlowMultiplyier = 0.3f;
     
     public Vector2 moveInput { get; private set; }
     public float dashSpeed = 10;
     public float dashDuration = 0.25f;
-
-    [Range(0, 1)]
-    public float airMoveMultiplyier = 0.7f;
-    [Range(0, 1)]
-    public float wallSlideSlowMultiplyier = 0.7f;
+    
     
     // Events
     public static event Action OnPlayerDeath;
@@ -139,6 +142,7 @@ public class Player : Entity
         if (input.Player.Jump.WasPressedThisFrame())
         {
             jumpBufferTimer = jumpBufferTime;
+            bufferedJumpReleased = false;
         }
         else if (jumpBufferTimer > 0)
         {
@@ -148,6 +152,12 @@ public class Player : Entity
     
     public void ConsumeJumpBuffer()
     {
+        bufferedJumpReleased = !input.Player.Jump.IsPressed();
         jumpBufferTimer = 0;
+    }
+    
+    public void ClearBufferedJumpRelease()
+    {
+        bufferedJumpReleased = false;
     }
 }

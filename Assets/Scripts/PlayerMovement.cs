@@ -25,8 +25,26 @@ public class PlayerMovement
     {
         if (rb.linearVelocity.y > 0)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * multiplier);
+            player.SetVelocity(rb.linearVelocity.x, rb.linearVelocity.y * multiplier);
+            // rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * multiplier);
         }
     }
-    
+
+    public void AirMove(float xInput, float speed, float multiplier, float deceleration)
+    {
+        float targetSpeed = xInput * speed * multiplier;
+        float newXVelocity;
+        
+        if (xInput != 0)
+        {
+            newXVelocity = targetSpeed;
+        }
+        else
+        {
+            newXVelocity = Mathf.MoveTowards(rb.linearVelocity.x, 0, deceleration * Time.deltaTime);
+        }
+
+        player.SetVelocity(newXVelocity, rb.linearVelocity.y);
+    }
+
 }

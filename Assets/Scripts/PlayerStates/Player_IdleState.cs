@@ -17,6 +17,11 @@ public class Player_IdleState : Player_GroundedState
     override public void Update()
     {
         base.Update();
+        
+        if (stateMachine.currentState != this)
+        {
+            return;
+        }
 
         if (player.moveInput.x == player.facingDirection && player.wallDetected)
         {

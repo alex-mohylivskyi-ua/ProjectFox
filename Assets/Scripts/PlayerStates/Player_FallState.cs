@@ -10,6 +10,11 @@ public class Player_FallState : Player_AiredState
     override public void Update()
     {
         base.Update();
+        
+        if (stateMachine.currentState != this)
+        {
+            return;
+        }
 
         if (player.groundDetected)
         {

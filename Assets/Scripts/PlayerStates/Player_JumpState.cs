@@ -15,6 +15,12 @@ public class Player_JumpState : Player_AiredState
         jumpCutApplied = false;
         player.movement.Jump(player.jumpForce);
         // player.SetVelocity(rb.linearVelocity.x, player.jumpForce); OLD Jump
+        if (player.bufferedJumpReleased)
+        {
+            jumpCutApplied = true;
+            player.movement.JumpCut(player.jumpCutMultiplier);
+            player.ClearBufferedJumpRelease();
+        }
     }
 
     override public void Update()
