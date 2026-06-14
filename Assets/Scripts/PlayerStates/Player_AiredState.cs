@@ -14,8 +14,13 @@ public class Player_AiredState : PlayerState
         player.movement.AirMove(
             player.moveInput.x,
             player.moveSpeed,
-            player.airMoveMultiplyier,
+            player.airMoveMultiplier,
             player.airMoveDeceleration
+        );
+        
+        player.movement.ApplyFallGravity(
+            player.fallGravityMultiplier,
+            player.maxFallSpeed
         );
         
         if (input.Player.Attack.WasPressedThisFrame())

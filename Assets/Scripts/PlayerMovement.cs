@@ -46,5 +46,20 @@ public class PlayerMovement
 
         player.SetVelocity(newXVelocity, rb.linearVelocity.y);
     }
+    
+    public void ApplyFallGravity(float fallGravityMultiplier, float maxFallSpeed)
+    {
+        if (rb.linearVelocity.y >= 0)
+        {
+            return;
+        }
+
+        float extraGravity = Physics2D.gravity.y * (fallGravityMultiplier - 1f) * Time.deltaTime;
+        float newYVelocity = rb.linearVelocity.y + extraGravity;
+
+        newYVelocity = Mathf.Max(newYVelocity, -maxFallSpeed);
+
+        player.SetVelocity(rb.linearVelocity.x, newYVelocity);
+    }
 
 }

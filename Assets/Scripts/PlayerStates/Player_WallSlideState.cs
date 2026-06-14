@@ -36,7 +36,7 @@ public class Player_WallSlideState : PlayerState
         {
             player.SetVelocity(player.moveInput.x * player.moveSpeed, rb.linearVelocity.y);
         } else {
-            player.SetVelocity(player.moveInput.x * player.moveSpeed, rb.linearVelocity.y * player.wallSlideSlowMultiplyier);
+            player.SetVelocity(player.moveInput.x * player.moveSpeed, rb.linearVelocity.y * player.wallSlideSlowMultiplier);
         }
     }
 }

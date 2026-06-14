@@ -39,20 +39,25 @@ public class Player : Entity
     [Header("Movement details")]
     [Range(0, 20)]
     public float moveSpeed;
-    [Range(0, 20)]
-    [SerializeField] public float jumpForce = 20;
+    
+    [Header("Jump details")]
+    [Range(0, 20)] [SerializeField] public float jumpForce = 20;
     [SerializeField] public float jumpBufferTime = 0.1f;
     private float jumpBufferTimer;
     public bool jumpBuffered => jumpBufferTimer > 0;
     public bool bufferedJumpReleased { get; private set; }
     [Range(0.1f, 1f)] public float jumpCutMultiplier = 0.4f;
     public Vector2 wallJumpForce;
-    [Range(0, 1)]
-    public float airMoveMultiplyier = 0.9f; // TODO HK 0.9 - 1
-    [Range(0, 100)]
-    public float airMoveDeceleration = 10f; // Increase
-    [Range(0, 1)]
-    public float wallSlideSlowMultiplyier = 0.3f;
+    
+    [Header("Air details")]
+    [Range(0, 1)] public float airMoveMultiplier = 0.9f; // TODO HK 0.9 - 1
+    [Range(0, 100)] public float airMoveDeceleration = 10f; // Increase
+    
+    
+    [Header("Fall details")]
+    [Range(1f, 5f)] public float fallGravityMultiplier = 1.5f;
+    [Range(1f, 50f)] public float maxFallSpeed = 18f;
+    [Range(0, 1)] public float wallSlideSlowMultiplier = 0.3f;
     
     public Vector2 moveInput { get; private set; }
     public float dashSpeed = 10;
