@@ -21,11 +21,21 @@ public class PlayerMovement
         player.SetVelocity(rb.linearVelocity.x, jumpForce);
     }
 
-    public void JumpCut(float multiplier)
+    public void JumpCut(float multiplier, float minVelocity)
     {
         if (rb.linearVelocity.y > 0)
         {
-            player.SetVelocity(rb.linearVelocity.x, rb.linearVelocity.y * multiplier);
+            float currentYVelocity = rb.linearVelocity.y;
+            float newYVelocity = currentYVelocity * multiplier;
+            
+            if (minVelocity > 0)
+            {
+                newYVelocity = Mathf.Max(newYVelocity, minVelocity);
+                newYVelocity = Mathf.Min(newYVelocity, currentYVelocity);
+            }
+            
+            player.SetVelocity(rb.linearVelocity.x, newYVelocity);
+            
             // rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * multiplier);
         }
     }

@@ -14,7 +14,8 @@ public class Player_DashState : PlayerState
     {
         base.Enter();
 
-        dashDir = player.moveInput.x != 0 ? ((int)player.moveInput.x) : player.facingDirection;
+        // dashDir = player.moveInput.x != 0 ? ((int)player.moveInput.x) : player.facingDirection;
+        dashDir = Mathf.Abs(player.moveInput.x) > 0.1f ? (int)Mathf.Sign(player.moveInput.x) : player.facingDirection;
         stateTimer = player.dashDuration;
         originalGravityScale = rb.gravityScale;
         rb.gravityScale = 0;
@@ -27,7 +28,10 @@ public class Player_DashState : PlayerState
     {
         base.Update();
 
-        CancelDashIfNeeded();
+        if (CancelDashIfNeeded())
+        {
+            return;
+        }
 
         player.SetVelocity(player.dashSpeed * dashDir, 0);
 
@@ -52,7 +56,7 @@ public class Player_DashState : PlayerState
         rb.gravityScale = originalGravityScale;
     }
 
-    private void CancelDashIfNeeded()
+    private bool CancelDashIfNeeded()
     {
         if (player.wallDetected)
         {
@@ -63,6 +67,10 @@ public class Player_DashState : PlayerState
             {
                 stateMachine.ChangeState(player.wallSlideState);
             }
+
+            return true;
         }
+
+        return false;
     }
 }

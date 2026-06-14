@@ -47,6 +47,7 @@ public class Player : Entity
     public bool jumpBuffered => jumpBufferTimer > 0;
     public bool bufferedJumpReleased { get; private set; }
     [Range(0.1f, 1f)] public float jumpCutMultiplier = 0.4f;
+    [Range(0f, 20f)] public float jumpCutMinVelocity;
     public Vector2 wallJumpForce;
     
     [Header("Air details")]
