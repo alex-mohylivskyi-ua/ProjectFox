@@ -869,7 +869,8 @@ MonoBehaviour:
   facingRight: 1
   facingDirection: 1
   groundCheck: {fileID: 69226678}
-  groundCheckDistance: 1.4
+  groundCheckDistance: 1.32
+  groundCheckSize: {x: 0.67, y: 0.08}
   wallCheckDistance: 0.4
   whatIsGround:
     serializedVersion: 2
@@ -4946,6 +4947,7 @@ MonoBehaviour:
   facingDirection: -1
   groundCheck: {fileID: 1110672147}
   groundCheckDistance: 1.4
+  groundCheckSize: {x: 0.7, y: 0.08}
   wallCheckDistance: 1
   whatIsGround:
     serializedVersion: 2
