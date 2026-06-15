@@ -40,12 +40,14 @@ public class Enemy : Entity
 
         UpdateInGameTime();
         
-        if (player == null)
+        RaycastHit2D playerHit = PlayerDetected();
+        
+        if (player == null && playerHit)
         {
-            player = PlayerDetected().transform;
+            player = playerHit.transform;
         }
 
-        if (PlayerDetected() == true)
+        if (playerHit)
         {
             UpdateBattleTimer();    
         }
@@ -147,7 +149,7 @@ public class Enemy : Entity
     protected override void HandleCollisionDetection()
     {
         base.HandleCollisionDetection();
-        Debug.Log("HandleCollisionDetection second");
+        
         groundAheadDetected = Physics2D.Raycast(groundAheadCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
 

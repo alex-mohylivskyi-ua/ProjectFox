@@ -55,7 +55,7 @@ public class Entity : MonoBehaviour
 
     public void SetVelocity(float xVelocity, float yVelocity)
     {
-        if (knockbackController.isKnocked)
+        if (knockbackController != null && knockbackController.isKnocked)
             return;
         
         rb.linearVelocity = new Vector2(xVelocity, yVelocity);

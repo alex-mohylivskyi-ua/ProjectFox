@@ -3,22 +3,25 @@ using UnityEngine;
 public class Player_BasicAttackState : PlayerState
 {
     private int comboIndex = 0;
-    private int maxComboIndex = 3;
+    private int maxComboIndex => player.attackVelocity.Length;
     private float lastTimeAttacked;
     private bool combatAttackQueued;
     private int attackDirection;
 
     public Player_BasicAttackState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
-        if (maxComboIndex != player.attackVelocity.Length)
-        {
-            Debug.LogWarning("I've adjusted combo limit, according to attack velocity array size!");
-        }
     }
 
     public override void Enter()
     {
         base.Enter();
+        
+        if (maxComboIndex == 0)
+        {
+            Debug.LogWarning("Player attack velocity array is empty. Basic attack state cannot apply attack velocity.");
+            stateMachine.ChangeState(player.idleState);
+            return;
+        }
 
         // Define attack direction according to player input
         attackDirection = player.moveInput.x != 0 ? ((int)player.moveInput.x) : player.facingDirection;
@@ -109,7 +112,12 @@ public class Player_BasicAttackState : PlayerState
     public override void Exit()
     {
         base.Exit();
-        HandlePlayerBasicAttackCount();
+        
+        if (maxComboIndex > 0)
+        {
+            HandlePlayerBasicAttackCount();
+        }
+        
         lastTimeAttacked = Time.time;
     }
 }

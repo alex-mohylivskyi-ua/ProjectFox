@@ -45,6 +45,11 @@ public class Entity_Health : MonoBehaviour, IDamagable
 
     private bool IsHeavyDamage(float damage)
     {
+        if (knockbackController == null)
+        {
+            return false;
+        }
+
         return damage >= maxHP * knockbackController.heavyDamageThreshold;
     }
 }

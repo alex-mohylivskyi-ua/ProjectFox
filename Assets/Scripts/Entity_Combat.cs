@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Entity_Combat : MonoBehaviour
@@ -22,8 +21,6 @@ public class Entity_Combat : MonoBehaviour
 
     public void PerformAttack()
     {
-        GetDetectedColliders();
-
         foreach (Collider2D target in GetDetectedColliders())
         {
             IDamagable damagable = target.GetComponent<IDamagable>();
