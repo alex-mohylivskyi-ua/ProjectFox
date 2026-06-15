@@ -15,10 +15,19 @@ public class Player_FallState : Player_AiredState
         {
             return;
         }
+        
+        if (player.jumpBuffered && player.canUseCoyoteJump)
+        {
+            player.ConsumeJumpBuffer();
+            player.ConsumeCoyoteTime();
+            stateMachine.ChangeState(player.jumpState);
+            return;
+        }
 
         if (player.groundDetected)
         {
             stateMachine.ChangeState(player.idleState);
+            return;
         }
 
         if (player.canWallSlide)

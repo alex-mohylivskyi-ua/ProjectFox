@@ -14,6 +14,7 @@ public class Player_GroundedState : PlayerState
         if (player.jumpBuffered)
         {
             player.ConsumeJumpBuffer();
+            player.ConsumeCoyoteTime();
             stateMachine.ChangeState(player.jumpState);
             return;
         }
