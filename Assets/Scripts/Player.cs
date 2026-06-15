@@ -53,6 +53,8 @@ public class Player : Entity
     [Header("Air details")]
     [Range(0, 1)] public float airMoveMultiplier = 0.9f; // TODO HK 0.9 - 1
     [Range(0, 100)] public float airMoveDeceleration = 10f; // Increase
+    [Range(0f, 10f)] public float apexThreshold = 2f;
+    [Range(1f, 2f)] public float apexMoveMultiplier = 1.1f;
     
     
     [Header("Fall details")]

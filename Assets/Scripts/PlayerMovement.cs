@@ -57,6 +57,25 @@ public class PlayerMovement
         player.SetVelocity(newXVelocity, rb.linearVelocity.y);
     }
     
+    public void AirMoveWithApexControl(
+        float xInput,
+        float speed,
+        float airMoveMultiplier,
+        float deceleration,
+        float apexThreshold,
+        float apexMoveMultiplier
+    )
+    {
+        float finalMultiplier = airMoveMultiplier;
+
+        if (apexThreshold > 0 && Mathf.Abs(rb.linearVelocity.y) < apexThreshold)
+        {
+            finalMultiplier *= apexMoveMultiplier;
+        }
+
+        AirMove(xInput, speed, finalMultiplier, deceleration);
+    }
+    
     public void ApplyFallGravity(float fallGravityMultiplier, float maxFallSpeed)
     {
         if (rb.linearVelocity.y >= 0)

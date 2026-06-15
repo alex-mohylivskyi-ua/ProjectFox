@@ -11,11 +11,13 @@ public class Player_AiredState : PlayerState
     {
         base.Update();
         
-        player.movement.AirMove(
+        player.movement.AirMoveWithApexControl(
             player.moveInput.x,
             player.moveSpeed,
             player.airMoveMultiplier,
-            player.airMoveDeceleration
+            player.airMoveDeceleration,
+            player.apexThreshold,
+            player.apexMoveMultiplier
         );
         
         player.movement.ApplyFallGravity(
