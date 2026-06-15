@@ -40,7 +40,7 @@ public class Player_BasicAttackState : PlayerState
 
         HandleAttackVelocity();
 
-        if (input.Player.Attack.WasPressedThisFrame())
+        if (player.inputReader.attackPressed)
         {
             QueuedNextAttack();
         }

@@ -3,7 +3,6 @@ using UnityEngine;
 public abstract class PlayerState: EntityState
 {
     protected Player player;
-    protected PlayerInputSet input;
 
     public PlayerState(Player player, StateMachine stateMachine, string animBoolName) : base(stateMachine, animBoolName)
     {
@@ -12,7 +11,6 @@ public abstract class PlayerState: EntityState
 
         anim = player.anim;
         rb = player.rb;
-        input = player.input;
     }
 
     // public - can be called from outside, virtual - can be inherited and extended in new instance
@@ -24,7 +22,7 @@ public abstract class PlayerState: EntityState
         
         stateTimer -= Time.deltaTime;
 
-        if (input.Player.Dash.WasPressedThisFrame() && CanDash())
+        if (player.inputReader.dashPressed && CanDash())
         {
             stateMachine.ChangeState(player.dashState);
         }

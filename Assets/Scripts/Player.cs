@@ -11,6 +11,8 @@ using System;
 public class Player : Entity
 {
     public PlayerInputSet input { get; private set; }
+    public PlayerInputReader inputReader { get; private set; }
+    public Vector2 moveInput => inputReader.moveInput;
 
     // Player states
     public Player_IdleState idleState { get; private set; }
@@ -69,7 +71,6 @@ public class Player : Entity
     [Range(1f, 50f)] public float maxFallSpeed = 18f;
     [Range(0, 1)] public float wallSlideSlowMultiplier = 0.3f;
     
-    public Vector2 moveInput { get; private set; }
     public float dashSpeed = 10;
     public float dashDuration = 0.25f;
     
@@ -97,7 +98,12 @@ public class Player : Entity
     protected override void Awake()
     {
         base.Awake();
+        
         input = new PlayerInputSet();
+        inputReader = new PlayerInputReader(input);
+        movement = new PlayerMovement(this, rb);
+        
+        // States
         idleState = new Player_IdleState(this, stateMachine, "idle");
         moveState = new Player_MoveState(this, stateMachine, "move");
         jumpState = new Player_JumpState(this, stateMachine, "jumpFall");
@@ -108,16 +114,11 @@ public class Player : Entity
         basicAttackState = new Player_BasicAttackState(this, stateMachine, "basicAttack");
         jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
         deadState = new Player_DeadState(this, stateMachine, "dead");
-
-        movement = new PlayerMovement(this, rb);
     }
 
     protected void OnEnable()
     {
-        input.Enable();
-        // input.Player.Movement.started
-        input.Player.Movement.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
-        input.Player.Movement.canceled += ctx => moveInput = Vector2.zero;
+        inputReader.Enable();
     }
 
     protected override void Start()
@@ -128,6 +129,7 @@ public class Player : Entity
     
     protected override void Update()
     {
+        inputReader.ReadInput();
         HandleJumpBuffer();
         base.Update();
         HandleCoyoteTime();
@@ -135,7 +137,7 @@ public class Player : Entity
 
     private void OnDisable()
     {
-        input.Disable();
+        inputReader.Disable();
     }
 
     public void EnterAttackStateWithDelay()
@@ -155,7 +157,7 @@ public class Player : Entity
 
     private void HandleJumpBuffer()
     {
-        if (input.Player.Jump.WasPressedThisFrame())
+        if (inputReader.jumpPressed)
         {
             jumpBufferTimer = jumpBufferTime;
             bufferedJumpReleased = false;
@@ -168,7 +170,7 @@ public class Player : Entity
     
     public void ConsumeJumpBuffer()
     {
-        bufferedJumpReleased = !input.Player.Jump.IsPressed();
+        bufferedJumpReleased = !inputReader.jumpHeld;
         jumpBufferTimer = 0;
     }
     

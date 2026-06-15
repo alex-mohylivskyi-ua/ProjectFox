@@ -25,7 +25,7 @@ public class Player_GroundedState : PlayerState
             return;
         }
 
-        if (input.Player.Attack.WasPressedThisFrame())
+        if (player.inputReader.attackPressed)
         {
             stateMachine.ChangeState(player.basicAttackState);
         }

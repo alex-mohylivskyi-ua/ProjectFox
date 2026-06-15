@@ -27,7 +27,7 @@ public class Player_JumpState : Player_AiredState
     {
         base.Update();
         
-        if (!input.Player.Jump.IsPressed() && rb.linearVelocity.y > 0 && !jumpCutApplied)
+        if (!player.inputReader.jumpHeld && rb.linearVelocity.y > 0 && !jumpCutApplied)
         {
             jumpCutApplied = true;
             player.movement.JumpCut(player.jumpCutMultiplier, player.jumpCutMinVelocity);
