@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -14,17 +13,10 @@ public class Entity : MonoBehaviour
     
 
     [Header("Collision detection")]
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] protected float groundCheckDistance;
-    [SerializeField] private Vector2 groundCheckSize = new Vector2(0.7f, 0.08f);
-    [SerializeField] private float wallCheckDistance;
-    [SerializeField] protected LayerMask whatIsGround;
-    public bool groundDetected { get; private set; }
-    public bool wallDetected { get; private set; }
-    public bool canWallSlide { get; private set; }
-    
-    [SerializeField] private Transform topWallCheck;
-    [SerializeField] private Transform bottomWallCheck;
+    protected Entity_Collision collision;
+    public bool groundDetected => collision != null && collision.groundDetected;
+    public bool wallDetected => collision != null && collision.wallDetected;
+    public bool canWallSlide => collision != null && collision.canWallSlide;
     
     private Entity_Knockback knockbackController;
 
@@ -35,6 +27,7 @@ public class Entity : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         stateMachine = new StateMachine();
         knockbackController = GetComponent<Entity_Knockback>();
+        collision = GetComponent<Entity_Collision>();
     }
 
     protected virtual void Start()
@@ -79,61 +72,14 @@ public class Entity : MonoBehaviour
         facingRight = !facingRight;
         facingDirection = facingDirection * -1;
     }
-
+    
     protected virtual void HandleCollisionDetection()
     {
-        RaycastHit2D topWallHit = Physics2D.Raycast(
-            topWallCheck.position,
-            Vector2.right * facingDirection,
-            wallCheckDistance,
-            whatIsGround
-        );
-
-        RaycastHit2D bottomWallHit = default;
-        if (bottomWallCheck != null)
-        {
-            bottomWallHit = Physics2D.Raycast(
-                bottomWallCheck.position,
-                Vector2.right * facingDirection,
-                wallCheckDistance,
-                whatIsGround
-            );
-        }
-        
-        RaycastHit2D groundHit = Physics2D.BoxCast(
-            groundCheck.position,
-            groundCheckSize,
-            0f,
-            Vector2.down,
-            groundCheckDistance,
-            whatIsGround
-        );
-
-        wallDetected = topWallHit || bottomWallHit;
-        canWallSlide = topWallHit && bottomWallHit;
-        groundDetected = groundHit;
+        collision?.HandleCollisionDetection(facingDirection);
     }
-
+    
     protected virtual void OnDrawGizmos()
     {
-        if (groundCheck != null)
-        {
-            Gizmos.color = Color.green;
-            Vector3 groundBoxCenter = groundCheck.position + Vector3.down * groundCheckDistance;
-            Gizmos.DrawWireCube(groundBoxCenter, groundCheckSize);
-        }
-        
-        if (topWallCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(topWallCheck.position, topWallCheck.position + new Vector3(wallCheckDistance * facingDirection, 0));
-        }
-        
-        if (bottomWallCheck != null)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawLine(bottomWallCheck.position, bottomWallCheck.position + new Vector3(wallCheckDistance * facingDirection, 0));    
-        }
     }
 
     public void CurrentStateAnimationTrigger()

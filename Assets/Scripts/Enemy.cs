@@ -12,6 +12,8 @@ public class Enemy : Entity
     [Header("Movement details")]
     [SerializeField] public float moveSpeed;
     [SerializeField] protected Transform groundAheadCheck;
+    [SerializeField] private float groundAheadCheckDistance;
+    [SerializeField] private LayerMask whatIsGroundAhead;
     
     [Range(0, 2)]
     public float moveAnimSpeedMultiplier = 1;
@@ -75,8 +77,23 @@ public class Enemy : Entity
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+        
+        // How it works. TOKNOW
         // Ground ahead check Gizmos line
-        Gizmos.DrawLine(groundAheadCheck.position, groundAheadCheck.position + new Vector3(0, -groundCheckDistance));
+        if (groundAheadCheck != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(
+                groundAheadCheck.position,
+                groundAheadCheck.position + new Vector3(0, -groundAheadCheckDistance)
+            );
+        }
+        
+        if (playerCheck == null)
+        {
+            return;
+        }
+       
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(playerCheck.position, new Vector3(playerCheck.position.x + (facingDirection * playerCheckDistance), playerCheck.position.y));
         Gizmos.color = Color.blue;
@@ -131,7 +148,16 @@ public class Enemy : Entity
 
     public RaycastHit2D PlayerDetected()
     {
-        RaycastHit2D hit = Physics2D.Raycast(playerCheck.position, Vector2.right * facingDirection, playerCheckDistance,  whatIsPlayer | whatIsGround);
+        if (playerCheck == null)
+        {
+            return default;
+        }
+        
+        RaycastHit2D hit = Physics2D.Raycast(
+            playerCheck.position,
+            Vector2.right * facingDirection,
+            playerCheckDistance,  
+            whatIsPlayer | whatIsGroundAhead);
         // if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         if (hit && hit.collider.CompareTag("Player"))
         {
@@ -150,7 +176,17 @@ public class Enemy : Entity
     {
         base.HandleCollisionDetection();
         
-        groundAheadDetected = Physics2D.Raycast(groundAheadCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+        if (groundAheadCheck == null)
+        {
+            groundAheadDetected = false;
+            return;
+        }
+        
+        groundAheadDetected = Physics2D.Raycast(
+            groundAheadCheck.position,
+            Vector2.down,
+            groundAheadCheckDistance,
+            whatIsGroundAhead);
     }
 
     private void OnEnable()

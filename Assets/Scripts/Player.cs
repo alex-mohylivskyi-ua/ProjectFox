@@ -23,6 +23,8 @@ public class Player : Entity
     public Player_BasicAttackState basicAttackState { get; private set; }
     public Player_JumpAttackState jumpAttackState { get; private set; }
     public Player_DeadState deadState { get; private set; }
+    
+    
     public PlayerMovement movement { get; private set; }
 
 
