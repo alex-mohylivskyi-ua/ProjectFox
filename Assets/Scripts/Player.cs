@@ -19,7 +19,9 @@ public class Player : Entity
     
     [Header("Data")]
     [SerializeField] private PlayerMovementData movementData;
+    [SerializeField] private PlayerCombatData combatData;
     public PlayerMovementData MovementData => movementData;
+    public PlayerCombatData CombatData => combatData;
     
     // Soft transition proxies.
     // Existing states can still use player.moveSpeed, player.jumpForce, etc.
@@ -39,6 +41,13 @@ public class Player : Entity
     public float wallSlideSlowMultiplier => movementData.wallSlideSlowMultiplier;
     public float dashSpeed => movementData.dashSpeed;
     public float dashDuration => movementData.dashDuration;
+    
+    // Combat data proxies.
+    // Existing states can still use player.attackVelocity, player.comboResetTime, etc.
+    public Vector2[] attackVelocity => combatData.attackVelocity;
+    public float attackVelocityDuration => combatData.attackVelocityDuration;
+    public float comboResetTime => combatData.comboResetTime;
+    public Vector2 jumpAttackVelocity => combatData.jumpAttackVelocity;
 
 
     // Player states
@@ -55,17 +64,7 @@ public class Player : Entity
     
     
     public PlayerMovement movement { get; private set; }
-    
-
-    [Header("Attack details")]
-    public Vector2[] attackVelocity;
-    public float attackVelocityDuration = .1f;
-    public float comboResetTime = 1;
     private Coroutine queuedAttackCo;
-
-    [Header("Jump Attack details")]
-    public Vector2 jumpAttackVelocity;
-    
     private float jumpBufferTimer;
     public bool jumpBuffered => jumpBufferTimer > 0;
     public bool bufferedJumpReleased { get; private set; }
@@ -110,6 +109,11 @@ public class Player : Entity
         if (movementData == null)
         {
             Debug.LogError($"{nameof(PlayerMovementData)} is not assigned on {name}.", this);
+        }
+        
+        if (combatData == null)
+        {
+            Debug.LogError($"{nameof(PlayerCombatData)} is not assigned on {name}.", this);
         }
         
         // States

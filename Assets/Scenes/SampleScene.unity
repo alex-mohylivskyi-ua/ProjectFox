@@ -872,13 +872,7 @@ MonoBehaviour:
   facingRight: 1
   facingDirection: 1
   movementData: {fileID: 11400000, guid: 8be3a437af4c9474cb1bcdf428874d94, type: 2}
-  attackVelocity:
-  - {x: 4, y: 3}
-  - {x: 2, y: 4}
-  - {x: 5, y: 7}
-  attackVelocityDuration: 0.1
-  comboResetTime: 1
-  jumpAttackVelocity: {x: 3, y: -5}
+  combatData: {fileID: 11400000, guid: 05d8fd2b5f8ed40439de2aeca71edafc, type: 2}
 --- !u!70 &69226680
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
