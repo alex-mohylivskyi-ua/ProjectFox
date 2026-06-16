@@ -845,7 +845,7 @@ Transform:
   m_GameObject: {fileID: 69226677}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.020004, y: -1.2399979, z: 0}
+  m_LocalPosition: {x: -0.39999962, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2813,7 +2813,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.049995, y: -0.05899787, z: 0}
+  m_LocalPosition: {x: 21.67, y: 11.181, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8786,7 +8786,7 @@ Transform:
   m_GameObject: {fileID: 1923486856}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.049995, y: -0.05899787, z: 0}
+  m_LocalPosition: {x: 21.67, y: 11.181, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9494,6 +9494,7 @@ GameObject:
   - component: {fileID: 2083474279}
   - component: {fileID: 2083474281}
   - component: {fileID: 2083474280}
+  - component: {fileID: 2083474282}
   m_Layer: 6
   m_Name: Square (50)
   m_TagString: Untagged
@@ -9621,6 +9622,26 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2083474282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083474278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03445f32dce464185a51e176b71daacc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Hazards
+  damage: 1
+  damageCooldown: 0.5
+  isInstantKill: 0
+  whatCanBeDamaged:
+    serializedVersion: 2
+    m_Bits: 384
+  damageOnEnter: 1
+  damageOnStay: 1
 --- !u!1 &2096185998
 GameObject:
   m_ObjectHideFlags: 0
