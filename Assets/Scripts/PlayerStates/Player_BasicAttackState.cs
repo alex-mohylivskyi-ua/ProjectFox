@@ -3,7 +3,7 @@ using UnityEngine;
 public class Player_BasicAttackState : PlayerState
 {
     private int comboIndex = 0;
-    private int maxComboIndex => player.attackVelocity.Length;
+    private int maxComboIndex => player.CombatData.attackVelocity.Length;
     private float lastTimeAttacked;
     private bool combatAttackQueued;
     private int attackDirection;
@@ -77,9 +77,9 @@ public class Player_BasicAttackState : PlayerState
 
     private void ApplyAttackVelocity()
     {
-        attackVelocityTimer = player.attackVelocityDuration;
+        attackVelocityTimer = player.CombatData.attackVelocityDuration;
 
-        Vector2 attackVelocity = player.attackVelocity[comboIndex];
+        Vector2 attackVelocity = player.CombatData.attackVelocity[comboIndex];
 
         player.SetVelocity(attackVelocity.x * attackDirection, attackVelocity.y);
     }
@@ -95,7 +95,7 @@ public class Player_BasicAttackState : PlayerState
     private void ResetComboIndexIfNeeded()
     {
         // If the reset combo time has passed
-        if (Time.time > lastTimeAttacked + player.comboResetTime)
+        if (Time.time > lastTimeAttacked + player.CombatData.comboResetTime)
         {
             comboIndex = 0;
         }

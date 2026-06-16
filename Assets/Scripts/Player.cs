@@ -15,41 +15,26 @@ public class Player : Entity
     public Vector2 moveInput => inputReader.moveInput;
     
     public PlayerAbilities abilities { get; private set; }
-    
-    
-    [Header("Data")]
+
+    [Header("Data")] 
+    // На перший погляд здається: “Навіщо другий рядок? Чому просто не брати movementData напряму?”
+    // Але відповідь така:
+    // movementData потрібен Unity Inspector-у, щоб ми могли призначити asset.
+    // MovementData потрібен іншим класам, щоб вони могли читати цей asset без права напряму змінювати поле
     [SerializeField] private PlayerMovementData movementData;
     [SerializeField] private PlayerCombatData combatData;
     public PlayerMovementData MovementData => movementData;
+    // Ось що означає ця стрілка, це простий геттер
+    // public PlayerMovementData MovementData
+    // {
+    //     get
+    //     {
+    //         return movementData;
+    //     }
+    // }
     public PlayerCombatData CombatData => combatData;
     
-    // Soft transition proxies.
-    // Existing states can still use player.moveSpeed, player.jumpForce, etc.
-    public float moveSpeed => movementData.moveSpeed;
-    public float jumpForce => movementData.jumpForce;
-    public float jumpBufferTime => movementData.jumpBufferTime;
-    public float coyoteTime => movementData.coyoteTime;
-    public float jumpCutMultiplier => movementData.jumpCutMultiplier;
-    public float jumpCutMinVelocity => movementData.jumpCutMinVelocity;
-    public Vector2 wallJumpForce => movementData.wallJumpForce;
-    public float airMoveMultiplier => movementData.airMoveMultiplier;
-    public float airMoveDeceleration => movementData.airMoveDeceleration;
-    public float apexThreshold => movementData.apexThreshold;
-    public float apexMoveMultiplier => movementData.apexMoveMultiplier;
-    public float fallGravityMultiplier => movementData.fallGravityMultiplier;
-    public float maxFallSpeed => movementData.maxFallSpeed;
-    public float wallSlideSlowMultiplier => movementData.wallSlideSlowMultiplier;
-    public float dashSpeed => movementData.dashSpeed;
-    public float dashDuration => movementData.dashDuration;
     
-    // Combat data proxies.
-    // Existing states can still use player.attackVelocity, player.comboResetTime, etc.
-    public Vector2[] attackVelocity => combatData.attackVelocity;
-    public float attackVelocityDuration => combatData.attackVelocityDuration;
-    public float comboResetTime => combatData.comboResetTime;
-    public Vector2 jumpAttackVelocity => combatData.jumpAttackVelocity;
-
-
     // Player states
     public Player_IdleState idleState { get; private set; }
     public Player_MoveState moveState { get; private set; }
@@ -172,7 +157,7 @@ public class Player : Entity
     {
         if (inputReader.jumpPressed)
         {
-            jumpBufferTimer = jumpBufferTime;
+            jumpBufferTimer = MovementData.jumpBufferTime;
             bufferedJumpReleased = false;
         }
         else if (jumpBufferTimer > 0)
@@ -196,7 +181,7 @@ public class Player : Entity
     {
         if (groundDetected)
         {
-            coyoteTimer = coyoteTime;
+            coyoteTimer = MovementData.coyoteTime;
             return;
         }
 

@@ -11,7 +11,7 @@ public class Player_JumpAttackState : PlayerState
     {
         base.Enter();
 
-        player.SetVelocity(player.jumpAttackVelocity.x * player.facingDirection, player.jumpAttackVelocity.y);
+        player.SetVelocity(player.CombatData.jumpAttackVelocity.x * player.facingDirection, player.CombatData.jumpAttackVelocity.y);
     }
 
     public override void Update()

@@ -13,12 +13,11 @@ public class Player_JumpState : Player_AiredState
         base.Enter();
 
         jumpCutApplied = false;
-        player.movement.Jump(player.jumpForce);
-        // player.SetVelocity(rb.linearVelocity.x, player.jumpForce); OLD Jump
+        player.movement.Jump(player.MovementData.jumpForce);
         if (player.bufferedJumpReleased)
         {
             jumpCutApplied = true;
-            player.movement.JumpCut(player.jumpCutMultiplier, player.jumpCutMinVelocity);
+            player.movement.JumpCut(player.MovementData.jumpCutMultiplier, player.MovementData.jumpCutMinVelocity);
             player.ClearBufferedJumpRelease();
         }
     }
@@ -30,7 +29,7 @@ public class Player_JumpState : Player_AiredState
         if (!player.inputReader.jumpHeld && rb.linearVelocity.y > 0 && !jumpCutApplied)
         {
             jumpCutApplied = true;
-            player.movement.JumpCut(player.jumpCutMultiplier, player.jumpCutMinVelocity);
+            player.movement.JumpCut(player.MovementData.jumpCutMultiplier, player.MovementData.jumpCutMinVelocity);
         }
 
         if (rb.linearVelocity.y < 0 && stateMachine.currentState != player.jumpAttackState)

@@ -16,7 +16,7 @@ public class Player_DashState : PlayerState
 
         // dashDir = player.moveInput.x != 0 ? ((int)player.moveInput.x) : player.facingDirection;
         dashDir = Mathf.Abs(player.moveInput.x) > 0.1f ? (int)Mathf.Sign(player.moveInput.x) : player.facingDirection;
-        stateTimer = player.dashDuration;
+        stateTimer = player.MovementData.dashDuration;
         originalGravityScale = rb.gravityScale;
         rb.gravityScale = 0;
 
@@ -33,7 +33,7 @@ public class Player_DashState : PlayerState
             return;
         }
 
-        player.SetVelocity(player.dashSpeed * dashDir, 0);
+        player.SetVelocity(player.MovementData.dashSpeed * dashDir, 0);
 
         if (stateTimer <= 0)
         {

@@ -27,7 +27,7 @@ public class Player_MoveState : Player_GroundedState
             return;
         }
 
-        player.SetVelocity(player.moveInput.x * player.moveSpeed, rb.linearVelocity.y);
+        player.SetVelocity(player.moveInput.x * player.MovementData.moveSpeed, rb.linearVelocity.y);
 
         if (player.moveInput.x == 0 || player.wallDetected)
         {

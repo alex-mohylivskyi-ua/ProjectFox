@@ -13,16 +13,16 @@ public class Player_AiredState : PlayerState
         
         player.movement.AirMoveWithApexControl(
             player.moveInput.x,
-            player.moveSpeed,
-            player.airMoveMultiplier,
-            player.airMoveDeceleration,
-            player.apexThreshold,
-            player.apexMoveMultiplier
+            player.MovementData.moveSpeed,
+            player.MovementData.airMoveMultiplier,
+            player.MovementData.airMoveDeceleration,
+            player.MovementData.apexThreshold,
+            player.MovementData.apexMoveMultiplier
         );
         
         player.movement.ApplyFallGravity(
-            player.fallGravityMultiplier,
-            player.maxFallSpeed
+            player.MovementData.fallGravityMultiplier,
+            player.MovementData.maxFallSpeed
         );
         
         if (player.inputReader.attackPressed && player.abilities.CanAirAttack)
