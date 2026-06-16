@@ -58,14 +58,15 @@ public class Player : Entity
     public bool canUseCoyoteJump => coyoteTimer > 0;
     
     // Events
-    public static event Action OnPlayerDeath;
+    // Carries the Player payload so listeners can tell WHICH player died (local co-op).
+    public static event Action<Player> OnPlayerDeath;
     
 
     // Here we use Entity_Health controller even without requiring it;
     public override void EntityDeath()
     {
         // Here we trigger event
-        OnPlayerDeath?.Invoke();
+        OnPlayerDeath?.Invoke(this);
         
         // We set false to prevent Enemy detecting player, what triggers moving to Enemy_BattleState
         rb.simulated = false;

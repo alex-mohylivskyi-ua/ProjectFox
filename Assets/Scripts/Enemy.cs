@@ -158,13 +158,18 @@ public class Enemy : Entity
             Vector2.right * facingDirection,
             playerCheckDistance,  
             whatIsPlayer | whatIsGroundAhead);
-        // if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
-        if (hit && hit.collider.CompareTag("Player"))
+        // Filter by layer (not tag) so detection works with multiple players on the Player layer.
+        if (hit && IsPlayerLayer(hit.collider.gameObject.layer))
         {
             return hit;
         }
-        
+
         return default;
+    }
+
+    private bool IsPlayerLayer(int layer)
+    {
+        return (whatIsPlayer.value & (1 << layer)) != 0;
     }
 
     public bool ShouldRetreat()
@@ -199,9 +204,16 @@ public class Enemy : Entity
         Player.OnPlayerDeath -= HandlePlayerDeath;
     }
 
-    private void HandlePlayerDeath()
+    private void HandlePlayerDeath(Player deadPlayer)
     {
-        Debug.Log("HandlePlayerDeath");
+        // Only react if the player who died is THIS enemy's current target.
+        // Otherwise enemies fighting other players would wrongly reset.
+        if (deadPlayer == null || player != deadPlayer.transform)
+        {
+            return;
+        }
+
+        player = null;
         stateMachine.ChangeState(idleState);
     }
 }
