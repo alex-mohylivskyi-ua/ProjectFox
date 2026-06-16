@@ -870,6 +870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   facingRight: 1
   facingDirection: 1
+  movementData: {fileID: 11400000, guid: 8be3a437af4c9474cb1bcdf428874d94, type: 2}
   attackVelocity:
   - {x: 4, y: 3}
   - {x: 2, y: 4}
@@ -877,22 +878,6 @@ MonoBehaviour:
   attackVelocityDuration: 0.1
   comboResetTime: 1
   jumpAttackVelocity: {x: 3, y: -5}
-  moveSpeed: 8
-  jumpForce: 20
-  jumpBufferTime: 0.1
-  coyoteTime: 0.1
-  jumpCutMultiplier: 0.4
-  jumpCutMinVelocity: 3
-  wallJumpForce: {x: 6, y: 12}
-  airMoveMultiplier: 0.9
-  airMoveDeceleration: 20
-  apexThreshold: 2
-  apexMoveMultiplier: 1.1
-  fallGravityMultiplier: 1.5
-  maxFallSpeed: 18
-  wallSlideSlowMultiplier: 0.3
-  dashSpeed: 20
-  dashDuration: 1
 --- !u!70 &69226680
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

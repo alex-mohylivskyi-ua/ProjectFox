@@ -13,6 +13,31 @@ public class Player : Entity
     public PlayerInputSet input { get; private set; }
     public PlayerInputReader inputReader { get; private set; }
     public Vector2 moveInput => inputReader.moveInput;
+    
+    
+    [Header("Data")]
+    [SerializeField] private PlayerMovementData movementData;
+    public PlayerMovementData MovementData => movementData;
+    
+    // Soft transition proxies.
+    // Existing states can still use player.moveSpeed, player.jumpForce, etc.
+    public float moveSpeed => movementData.moveSpeed;
+    public float jumpForce => movementData.jumpForce;
+    public float jumpBufferTime => movementData.jumpBufferTime;
+    public float coyoteTime => movementData.coyoteTime;
+    public float jumpCutMultiplier => movementData.jumpCutMultiplier;
+    public float jumpCutMinVelocity => movementData.jumpCutMinVelocity;
+    public Vector2 wallJumpForce => movementData.wallJumpForce;
+    public float airMoveMultiplier => movementData.airMoveMultiplier;
+    public float airMoveDeceleration => movementData.airMoveDeceleration;
+    public float apexThreshold => movementData.apexThreshold;
+    public float apexMoveMultiplier => movementData.apexMoveMultiplier;
+    public float fallGravityMultiplier => movementData.fallGravityMultiplier;
+    public float maxFallSpeed => movementData.maxFallSpeed;
+    public float wallSlideSlowMultiplier => movementData.wallSlideSlowMultiplier;
+    public float dashSpeed => movementData.dashSpeed;
+    public float dashDuration => movementData.dashDuration;
+
 
     // Player states
     public Player_IdleState idleState { get; private set; }
@@ -28,8 +53,7 @@ public class Player : Entity
     
     
     public PlayerMovement movement { get; private set; }
-
-
+    
 
     [Header("Attack details")]
     public Vector2[] attackVelocity;
@@ -39,41 +63,13 @@ public class Player : Entity
 
     [Header("Jump Attack details")]
     public Vector2 jumpAttackVelocity;
-
-    [Header("Movement details")]
-    [Range(0, 20)]
-    public float moveSpeed;
     
-    [Header("Jump details")]
-    [Range(0, 20)] [SerializeField] public float jumpForce = 20;
-    [SerializeField] public float jumpBufferTime = 0.1f;
     private float jumpBufferTimer;
     public bool jumpBuffered => jumpBufferTimer > 0;
     public bool bufferedJumpReleased { get; private set; }
-    // Coyote time
-    [SerializeField] public float coyoteTime = 0.1f;
+   
     private float coyoteTimer;
     public bool canUseCoyoteJump => coyoteTimer > 0;
-    // Jump cut
-    [Range(0.1f, 1f)] public float jumpCutMultiplier = 0.4f;
-    [Range(0f, 20f)] public float jumpCutMinVelocity;
-    public Vector2 wallJumpForce;
-    
-    [Header("Air details")]
-    [Range(0, 1)] public float airMoveMultiplier = 0.9f; // TODO HK 0.9 - 1
-    [Range(0, 100)] public float airMoveDeceleration = 10f; // Increase
-    [Range(0f, 10f)] public float apexThreshold = 2f;
-    [Range(1f, 2f)] public float apexMoveMultiplier = 1.1f;
-    
-    
-    [Header("Fall details")]
-    [Range(1f, 5f)] public float fallGravityMultiplier = 1.5f;
-    [Range(1f, 50f)] public float maxFallSpeed = 18f;
-    [Range(0, 1)] public float wallSlideSlowMultiplier = 0.3f;
-    
-    public float dashSpeed = 10;
-    public float dashDuration = 0.25f;
-    
     
     // Events
     public static event Action OnPlayerDeath;
