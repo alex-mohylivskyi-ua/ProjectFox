@@ -17,7 +17,7 @@ public class Entity_Collision : MonoBehaviour
 
     public bool groundDetected { get; private set; }
     public bool wallDetected { get; private set; }
-    public bool canWallSlide { get; private set; }
+    public bool wallSlideSurfaceDetected { get; private set; }
 
     public float groundCheckDistanceValue => groundCheckDistance;
     public LayerMask whatIsGroundValue => whatIsGround;
@@ -60,7 +60,7 @@ public class Entity_Collision : MonoBehaviour
         }
 
         wallDetected = topWallHit || bottomWallHit;
-        canWallSlide = topWallHit && bottomWallHit;
+        wallSlideSurfaceDetected = topWallHit && bottomWallHit;
         groundDetected = groundHit;
     }
 

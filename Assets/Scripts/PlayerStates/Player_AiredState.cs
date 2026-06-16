@@ -25,7 +25,7 @@ public class Player_AiredState : PlayerState
             player.maxFallSpeed
         );
         
-        if (player.inputReader.attackPressed)
+        if (player.inputReader.attackPressed && player.abilities.CanAirAttack)
         {
             stateMachine.ChangeState(player.jumpAttackState);
         }

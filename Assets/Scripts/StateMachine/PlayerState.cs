@@ -22,13 +22,18 @@ public abstract class PlayerState: EntityState
         
         stateTimer -= Time.deltaTime;
 
-        if (player.inputReader.dashPressed && CanDash())
+        if (player.inputReader.dashPressed && CanUseDashAbility() && CanEnterDashState())
         {
             stateMachine.ChangeState(player.dashState);
         }
     }
+    
+    private bool CanUseDashAbility()
+    {
+        return player.abilities != null && player.abilities.CanDash;
+    }
 
-    private bool CanDash()
+    private bool CanEnterDashState()
     {
         if (player.wallDetected) {
             return false;

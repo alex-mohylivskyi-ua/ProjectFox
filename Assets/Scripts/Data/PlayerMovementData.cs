@@ -19,11 +19,11 @@ public class PlayerMovementData : ScriptableObject
     [Range(0f, 20f)] public float jumpCutMinVelocity = 0f;
 
     [Header("Wall jump")]
-    public Vector2 wallJumpForce = new Vector2(8f, 16f);
+    public Vector2 wallJumpForce = new Vector2(6f, 12f);
 
     [Header("Air details")]
     [Range(0, 1)] public float airMoveMultiplier = 0.9f;
-    [Range(0, 100)] public float airMoveDeceleration = 10f;
+    [Range(0, 100)] public float airMoveDeceleration = 20f;
     [Range(0f, 10f)] public float apexThreshold = 2f;
     [Range(1f, 2f)] public float apexMoveMultiplier = 1.1f;
 
@@ -33,6 +33,6 @@ public class PlayerMovementData : ScriptableObject
     [Range(0, 1)] public float wallSlideSlowMultiplier = 0.3f;
 
     [Header("Dash details")]
-    [Min(0)] public float dashSpeed = 10f;
-    [Min(0)] public float dashDuration = 0.25f;
+    [Min(0)] public float dashSpeed = 20f;
+    [Min(0)] public float dashDuration = 1f;
 }

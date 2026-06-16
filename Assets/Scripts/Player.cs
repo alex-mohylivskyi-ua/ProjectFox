@@ -14,6 +14,8 @@ public class Player : Entity
     public PlayerInputReader inputReader { get; private set; }
     public Vector2 moveInput => inputReader.moveInput;
     
+    public PlayerAbilities abilities { get; private set; }
+    
     
     [Header("Data")]
     [SerializeField] private PlayerMovementData movementData;
@@ -98,6 +100,17 @@ public class Player : Entity
         input = new PlayerInputSet();
         inputReader = new PlayerInputReader(input);
         movement = new PlayerMovement(this, rb);
+        abilities = GetComponent<PlayerAbilities>();
+        
+        if (abilities == null)
+        {
+            Debug.LogError($"{nameof(PlayerAbilities)} is not assigned on {name}.", this);
+        }
+        
+        if (movementData == null)
+        {
+            Debug.LogError($"{nameof(PlayerMovementData)} is not assigned on {name}.", this);
+        }
         
         // States
         idleState = new Player_IdleState(this, stateMachine, "idle");

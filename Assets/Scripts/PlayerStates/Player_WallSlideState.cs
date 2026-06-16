@@ -13,7 +13,7 @@ public class Player_WallSlideState : PlayerState
 
         HandleWallSlide();
 
-        if (player.inputReader.jumpPressed)
+        if (player.inputReader.jumpPressed && player.abilities.CanWallJump)
         {
             stateMachine.ChangeState(player.wallJumpState);
         }
@@ -24,7 +24,7 @@ public class Player_WallSlideState : PlayerState
             player.Flip();
         }
         
-        else if (!player.canWallSlide)
+        else if (!player.wallSlideSurfaceDetected)
         {
             stateMachine.ChangeState(player.fallState);
         }

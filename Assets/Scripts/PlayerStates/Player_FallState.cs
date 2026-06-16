@@ -30,7 +30,7 @@ public class Player_FallState : Player_AiredState
             return;
         }
 
-        if (player.canWallSlide)
+        if (player.wallSlideSurfaceDetected && player.abilities.CanWallSlide)
         {
             stateMachine.ChangeState(player.wallSlideState);
         }

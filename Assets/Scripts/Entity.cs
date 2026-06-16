@@ -16,7 +16,7 @@ public class Entity : MonoBehaviour
     protected Entity_Collision collision;
     public bool groundDetected => collision != null && collision.groundDetected;
     public bool wallDetected => collision != null && collision.wallDetected;
-    public bool canWallSlide => collision != null && collision.canWallSlide;
+    public bool wallSlideSurfaceDetected => collision != null && collision.wallSlideSurfaceDetected;
     
     private Entity_Knockback knockbackController;
 
