@@ -11,6 +11,6 @@ public class Player_DeadState : PlayerState
     {
         base.Enter();
         
-        player.input.Disable();
+        // player.input.Disable(); TOFIX
     }
 }

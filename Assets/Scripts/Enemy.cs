@@ -196,12 +196,12 @@ public class Enemy : Entity
 
     private void OnEnable()
     {
-        Player.OnPlayerDeath += HandlePlayerDeath;
+        // Player.OnPlayerDeath += HandlePlayerDeath;
     }
     
     private void OnDisable()
     {
-        Player.OnPlayerDeath -= HandlePlayerDeath;
+        // Player.OnPlayerDeath -= HandlePlayerDeath;
     }
 
     private void HandlePlayerDeath(Player deadPlayer)

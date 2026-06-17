@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using System.Collections;
 using System;
 
@@ -10,7 +11,7 @@ using System;
 
 public class Player : Entity
 {
-    public PlayerInputSet input { get; private set; }
+    private PlayerInput playerInput;
     public PlayerInputReader inputReader { get; private set; }
     public Vector2 moveInput => inputReader.moveInput;
     
@@ -59,7 +60,7 @@ public class Player : Entity
     
     // Events
     // Carries the Player payload so listeners can tell WHICH player died (local co-op).
-    public static event Action<Player> OnPlayerDeath;
+    public event Action<Player> OnPlayerDeath;
     
 
     // Here we use Entity_Health controller even without requiring it;
@@ -82,8 +83,8 @@ public class Player : Entity
     {
         base.Awake();
         
-        input = new PlayerInputSet();
-        inputReader = new PlayerInputReader(input);
+        playerInput = GetComponent<PlayerInput>();
+        inputReader = new PlayerInputReader(playerInput);
         movement = new PlayerMovement(this, rb);
         abilities = GetComponent<PlayerAbilities>();
         
