@@ -10,8 +10,8 @@ public class Player_GroundedState : PlayerState
     override public void Update()
     {
         base.Update();
-
-        if (player.jumpBuffered)
+        
+        if (player.jumpBuffered && (player.groundDetected || player.canUseCoyoteJump))
         {
             player.ConsumeJumpBuffer();
             player.ConsumeCoyoteTime();

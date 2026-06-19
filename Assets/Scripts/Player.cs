@@ -16,6 +16,7 @@ public class Player : Entity
     public Vector2 moveInput => inputReader.moveInput;
     
     public PlayerAbilities abilities { get; private set; }
+    private PlayerOneWayPlatformDrop oneWayPlatformDrop;
 
     [Header("Data")] 
     // На перший погляд здається: “Навіщо другий рядок? Чому просто не брати movementData напряму?”
@@ -87,6 +88,7 @@ public class Player : Entity
         inputReader = new PlayerInputReader(playerInput);
         movement = new PlayerMovement(this, rb);
         abilities = GetComponent<PlayerAbilities>();
+        oneWayPlatformDrop = GetComponent<PlayerOneWayPlatformDrop>();
         
         if (abilities == null)
         {
@@ -130,7 +132,16 @@ public class Player : Entity
     protected override void Update()
     {
         inputReader.ReadInput();
-        HandleJumpBuffer();
+        
+        if (oneWayPlatformDrop != null && oneWayPlatformDrop.TryDropThroughPlatform())
+        {
+            ClearJumpBuffer();
+        }
+        else
+        {
+            HandleJumpBuffer();
+        }
+        
         base.Update();
         HandleCoyoteTime();
     }
@@ -171,6 +182,12 @@ public class Player : Entity
     public void ConsumeJumpBuffer()
     {
         bufferedJumpReleased = !inputReader.jumpHeld;
+        jumpBufferTimer = 0;
+    }
+    
+    public void ClearJumpBuffer()
+    {
+        bufferedJumpReleased = false;
         jumpBufferTimer = 0;
     }
     

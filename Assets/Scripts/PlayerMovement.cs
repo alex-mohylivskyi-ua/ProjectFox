@@ -21,6 +21,13 @@ public class PlayerMovement
         player.SetVelocity(rb.linearVelocity.x, jumpForce);
     }
 
+    public void WallJump()
+    {
+        player.SetVelocity(
+            player.MovementData.wallJumpForce.x * -player.facingDirection,
+            player.MovementData.wallJumpForce.y);
+        }
+
     public void JumpCut(float multiplier, float minVelocity)
     {
         if (rb.linearVelocity.y > 0)

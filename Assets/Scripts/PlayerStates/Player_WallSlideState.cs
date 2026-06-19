@@ -22,6 +22,8 @@ public class Player_WallSlideState : PlayerState
         {
             stateMachine.ChangeState(player.idleState);
             player.Flip();
+            // Я б це перевірив gameplay-тестом. Можливо, краще не завжди робити Flip(), а робити HandleFlip(player.moveInput.x) або взагалі не фліпати тут.
+            //     Пріоритет: середній для wall slide polish.
         }
         
         else if (!player.wallSlideSurfaceDetected)

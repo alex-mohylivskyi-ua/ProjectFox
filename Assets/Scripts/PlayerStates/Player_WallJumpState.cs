@@ -10,8 +10,8 @@ public class Player_WallJumpState : PlayerState
     override public void Enter()
     {
         base.Enter();
-
-        player.SetVelocity(player.MovementData.wallJumpForce.x * -player.facingDirection, player.MovementData.wallJumpForce.y);
+        
+        player.movement.WallJump();
     }
 
     override public void Update()

@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: 3259787423061718583}
   - component: {fileID: 8614510793254524459}
   - component: {fileID: 321945188401154374}
+  - component: {fileID: 7750110900561448684}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -179,7 +180,7 @@ MonoBehaviour:
   wallCheckDistance: 0.4
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
 --- !u!114 &1550783031795084941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,11 +408,31 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: de506694-2f99-4390-8760-6e8778b053cf
     m_ActionName: 'Player/Attack[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 82fd4aa5-c519-44db-9af4-e28238c2f2ab
+    m_ActionName: Player/Join
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7750110900561448684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5376051919769878704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0aae69b5439c413d8aab54ba2bd8f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player_OneWayPlatformDrop
+  oneWayPlatformLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  downInputThreshold: -0.5
 --- !u!1 &7202151834529368389
 GameObject:
   m_ObjectHideFlags: 0
