@@ -11,6 +11,12 @@ public class Player_GroundedState : PlayerState
     {
         base.Update();
         
+        if (player.droppedThroughOneWayPlatformThisFrame)
+        {
+            stateMachine.ChangeState(player.fallState);
+            return;
+        }
+        
         if (player.jumpBuffered && (player.groundDetected || player.canUseCoyoteJump))
         {
             player.ConsumeJumpBuffer();

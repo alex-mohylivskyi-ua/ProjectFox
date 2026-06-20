@@ -4,7 +4,9 @@ using UnityEngine;
 public class StateMachine
 {
     public EntityState currentState { get; private set; }
+    public EntityState previousState { get; private set; }
     public string CurrentStateName => currentState != null ? currentState.GetType().Name : "None";
+    public string PreviousStateName => previousState != null ? previousState.GetType().Name : "None";
     public event Action<EntityState, EntityState> OnStateChanged;
     private bool canChangeState;
 
@@ -18,6 +20,7 @@ public class StateMachine
         }
         
         canChangeState = true;
+        previousState = null;
         currentState = startState;
         currentState.Enter();
     }
@@ -41,9 +44,11 @@ public class StateMachine
             return;
         }
         
-        EntityState previousState = currentState;
-
+        EntityState oldState = currentState;
+        
         currentState.Exit();
+        
+        previousState = oldState;
         currentState = newState;
         currentState.Enter();
         

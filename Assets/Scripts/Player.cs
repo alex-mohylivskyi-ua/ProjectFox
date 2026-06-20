@@ -17,6 +17,9 @@ public class Player : Entity
     
     public PlayerAbilities abilities { get; private set; }
     private PlayerOneWayPlatformDrop oneWayPlatformDrop;
+    
+    [Header("One way platform")]
+    [SerializeField, Min(0f)] private float ignoreGroundAfterOneWayDropDuration = 0.15f;
 
     [Header("Data")] 
     // На перший погляд здається: “Навіщо другий рядок? Чому просто не брати movementData напряму?”
@@ -55,9 +58,18 @@ public class Player : Entity
     private float jumpBufferTimer;
     public bool jumpBuffered => jumpBufferTimer > 0;
     public bool bufferedJumpReleased { get; private set; }
-   
+    public bool droppedThroughOneWayPlatformThisFrame { get; private set; }
+    private float ignoreGroundAfterOneWayDropTimer;
+    public bool shouldIgnoreGroundAfterOneWayDrop => ignoreGroundAfterOneWayDropTimer > 0;
+    
     private float coyoteTimer;
     public bool canUseCoyoteJump => coyoteTimer > 0;
+    
+    // HUD start
+    public float coyoteTimeLeft => coyoteTimer;
+    public float jumpBufferTimeLeft => jumpBufferTimer;
+    public float ignoreGroundAfterOneWayDropTimeLeft => ignoreGroundAfterOneWayDropTimer;
+    // HUD end
     
     // Events
     // Carries the Player payload so listeners can tell WHICH player died (local co-op).
@@ -133,9 +145,15 @@ public class Player : Entity
     {
         inputReader.ReadInput();
         
+        droppedThroughOneWayPlatformThisFrame = false;
+        HandleOneWayPlatformGroundIgnoreTimer();
+        
         if (oneWayPlatformDrop != null && oneWayPlatformDrop.TryDropThroughPlatform())
         {
+            droppedThroughOneWayPlatformThisFrame = true;
+            StartIgnoringGroundAfterOneWayDrop();
             ClearJumpBuffer();
+            ConsumeCoyoteTime();
         }
         else
         {
@@ -179,6 +197,19 @@ public class Player : Entity
         }
     }
     
+    private void StartIgnoringGroundAfterOneWayDrop()
+    {
+        ignoreGroundAfterOneWayDropTimer = ignoreGroundAfterOneWayDropDuration;
+    }
+
+    private void HandleOneWayPlatformGroundIgnoreTimer()
+    {
+        if (ignoreGroundAfterOneWayDropTimer > 0)
+        {
+            ignoreGroundAfterOneWayDropTimer -= Time.deltaTime;
+        }
+    }
+    
     public void ConsumeJumpBuffer()
     {
         bufferedJumpReleased = !inputReader.jumpHeld;
@@ -198,6 +229,12 @@ public class Player : Entity
     
     private void HandleCoyoteTime()
     {
+        if (shouldIgnoreGroundAfterOneWayDrop)
+        {
+            coyoteTimer = 0;
+            return;
+        }
+        
         if (groundDetected)
         {
             coyoteTimer = MovementData.coyoteTime;

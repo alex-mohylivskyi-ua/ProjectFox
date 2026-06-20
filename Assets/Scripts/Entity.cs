@@ -7,6 +7,8 @@ public class Entity : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
     protected StateMachine stateMachine;
+    public string CurrentStateName => stateMachine != null ? stateMachine.CurrentStateName : "None";
+    public string PreviousStateName => stateMachine != null ? stateMachine.PreviousStateName : "None";
 
     [SerializeField] private bool facingRight = true;
     [SerializeField] public int facingDirection = 1;
@@ -17,6 +19,20 @@ public class Entity : MonoBehaviour
     public bool groundDetected => collision != null && collision.groundDetected;
     public bool wallDetected => collision != null && collision.wallDetected;
     public bool wallSlideSurfaceDetected => collision != null && collision.wallSlideSurfaceDetected;
+
+    // HUD start
+    public bool debugGroundHitDetected => collision != null && collision.debugGroundHitDetected;
+    public string debugGroundHitName => collision != null ? collision.debugGroundHitName : "None";
+    public bool debugGroundHitIsOneWayPlatform => collision != null && collision.debugGroundHitIsOneWayPlatform;
+    public bool debugOneWayGroundHitValid => collision != null && collision.debugOneWayGroundHitValid;
+    public float debugGroundCheckY => collision != null ? collision.debugGroundCheckY : 0f;
+    public float debugGroundCastBottomY => collision != null ? collision.debugGroundCastBottomY : 0f;
+    public float debugPlatformTopY => collision != null ? collision.debugPlatformTopY : 0f;
+    public float debugDistanceToPlatformTop => collision != null ? collision.debugDistanceToPlatformTop : 0f;
+    public float debugOneWayPlatformTopTolerance => collision != null ? collision.debugOneWayPlatformTopTolerance : 0f;
+    public float debugOneWayPlatformMaxLandingDistance => collision != null ? collision.debugOneWayPlatformMaxLandingDistance : 0f;
+
+    // HUD end
     
     private Entity_Knockback knockbackController;
 

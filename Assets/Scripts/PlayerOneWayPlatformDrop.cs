@@ -19,7 +19,18 @@ public class PlayerOneWayPlatformDrop : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D currentPlatformCollider;
     private OneWayPlatform currentPlatform;
+    private Collider2D ignoredPlatformCollider;
     private Coroutine restoreCollisionCoroutine;
+    
+    // HUD start
+    public bool HasCurrentPlatform => currentPlatformCollider != null && currentPlatform != null;
+    public string CurrentPlatformName => currentPlatformCollider != null ? currentPlatformCollider.name : "None";
+    public bool DropInputDetected => player != null &&
+                                     player.inputReader != null &&
+                                     player.inputReader.jumpPressed &&
+                                     player.moveInput.y <= downInputThreshold;
+    public bool IsIgnoringPlatformCollision => ignoredPlatformCollider != null;
+    // HUD end
 
     private void Awake()
     {
@@ -77,6 +88,7 @@ public class PlayerOneWayPlatformDrop : MonoBehaviour
         float restoreDelay = currentPlatform.RestoreCollisionDelay;
 
         Physics2D.IgnoreCollision(playerCollider, platformCollider, true);
+        ignoredPlatformCollider = platformCollider;
 
         if (rb != null && rb.linearVelocity.y > -dropStartVelocity)
         {
@@ -100,6 +112,13 @@ public class PlayerOneWayPlatformDrop : MonoBehaviour
         {
             Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
         }
+        
+        // HUD start
+        if (ignoredPlatformCollider == platformCollider)
+        {
+            ignoredPlatformCollider = null;
+        }
+        // HUD end
 
         restoreCollisionCoroutine = null;
     }
@@ -129,8 +148,8 @@ public class PlayerOneWayPlatformDrop : MonoBehaviour
         {
             return;
         }
-
-        OneWayPlatform platform = other.GetComponent<OneWayPlatform>();
+        
+        OneWayPlatform platform = other.GetComponentInParent<OneWayPlatform>();
 
         if (platform == null)
         {

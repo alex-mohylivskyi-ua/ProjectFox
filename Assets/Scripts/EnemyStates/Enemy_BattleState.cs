@@ -19,8 +19,6 @@ public class Enemy_BattleState : EnemyState
             rb.linearVelocity = new Vector2(enemy.retreatVelocity.x * -enemy.DirectionToPlayer(), enemy.retreatVelocity.y);
             enemy.HandleFlip(enemy.DirectionToPlayer());
         }
-
-        Debug.Log("inside battle state");
     }
 
     public override void Update()

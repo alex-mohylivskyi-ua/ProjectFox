@@ -24,7 +24,7 @@ public class Player_FallState : Player_AiredState
             return;
         }
 
-        if (player.groundDetected)
+        if (player.groundDetected && !player.shouldIgnoreGroundAfterOneWayDrop)
         {
             stateMachine.ChangeState(player.idleState);
             return;

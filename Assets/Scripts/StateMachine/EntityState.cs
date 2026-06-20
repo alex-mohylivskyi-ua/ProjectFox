@@ -26,7 +26,6 @@ public abstract class EntityState
     public virtual void Update()
     {
         // we're going to run logic of the state
-        // Debug.Log("I run update of " + animBoolName);
         stateTimer -= Time.deltaTime;
         UpdateAnimationParameters();
     }
@@ -34,7 +33,6 @@ public abstract class EntityState
     public virtual void Exit()
     {
         // This will be called, everytime we Exit state and change to a new one
-        // Debug.Log("I exit " + animBoolName);
         anim.SetBool(animBoolName, false);
     }
 
