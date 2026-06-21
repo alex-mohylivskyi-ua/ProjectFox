@@ -17,6 +17,7 @@ public class Player : Entity
     
     public PlayerAbilities abilities { get; private set; }
     private PlayerOneWayPlatformDrop oneWayPlatformDrop;
+    private PlayerInteraction interaction;
     
     [Header("One way platform")]
     [SerializeField, Min(0f)] private float ignoreGroundAfterOneWayDropDuration = 0.15f;
@@ -101,6 +102,7 @@ public class Player : Entity
         movement = new PlayerMovement(this, rb);
         abilities = GetComponent<PlayerAbilities>();
         oneWayPlatformDrop = GetComponent<PlayerOneWayPlatformDrop>();
+        interaction = GetComponent<PlayerInteraction>();
         
         if (abilities == null)
         {
@@ -144,6 +146,7 @@ public class Player : Entity
     protected override void Update()
     {
         inputReader.ReadInput();
+        interaction?.HandleInteraction();
         
         droppedThroughOneWayPlatformThisFrame = false;
         HandleOneWayPlatformGroundIgnoreTimer();

@@ -8,12 +8,14 @@ public class PlayerInputReader
     private readonly InputAction jumpAction;
     private readonly InputAction attackAction;
     private readonly InputAction dashAction;
+    private readonly InputAction interactAction;
 
     public Vector2 moveInput { get; private set; }
     public bool jumpPressed { get; private set; }
     public bool jumpHeld { get; private set; }
     public bool attackPressed { get; private set; }
     public bool dashPressed { get; private set; }
+    public bool interactPressed { get; private set; }
     
     public PlayerInputReader(PlayerInput playerInput)
     {
@@ -25,6 +27,7 @@ public class PlayerInputReader
         jumpAction = playerActionMap.FindAction("Jump", true);
         attackAction = playerActionMap.FindAction("Attack", true);
         dashAction = playerActionMap.FindAction("Dash", true);
+        interactAction = playerActionMap.FindAction("Interact", true);
     }
 
     public void Enable()
@@ -44,5 +47,6 @@ public class PlayerInputReader
         jumpHeld = jumpAction.IsPressed();
         attackPressed = attackAction.WasPressedThisFrame();
         dashPressed = dashAction.WasPressedThisFrame();
+        interactPressed = interactAction.WasPressedThisFrame();
     }
 }
