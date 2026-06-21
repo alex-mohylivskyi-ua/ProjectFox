@@ -30,6 +30,7 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private Rigidbody2D platformRb;
     [SerializeField] private Transform platform;
     [SerializeField] private Transform platformPath;
+    [SerializeField] private MovingPlatformPassengerMover passengerMover;
 
     [Header("Path")]
     [SerializeField] private PathMode pathMode = PathMode.PingPong;
@@ -60,6 +61,11 @@ public class MovingPlatform : MonoBehaviour
         if (platform == null && platformRb != null)
         {
             platform = platformRb.transform;
+        }
+        
+        if (passengerMover == null && platform != null)
+        {
+            passengerMover = platform.GetComponent<MovingPlatformPassengerMover>();
         }
 
         if (platformRb == null)
@@ -170,8 +176,11 @@ public class MovingPlatform : MonoBehaviour
             targetPosition,
             speed * Time.fixedDeltaTime
         );
+        
+        Vector2 platformDelta = nextPosition - currentPosition;
 
         platformRb.MovePosition(nextPosition);
+        passengerMover?.MovePassengers(platformDelta);
 
         if (Vector2.Distance(nextPosition, targetPosition) <= 0.01f)
         {
