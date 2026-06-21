@@ -5,7 +5,7 @@ public class PlayerDebugHUD : MonoBehaviour
 {
     [Header("Display")]
     [SerializeField] private bool showDebug = false;
-    [SerializeField] private KeyCode toggleKey = KeyCode.F1;
+    // [SerializeField] private KeyCode toggleKey = KeyCode.F1;
     [SerializeField] private int fontSize = 10;
     [SerializeField] private Vector2 screenOffset = new Vector2(10f, 10f);
     [SerializeField] private Vector2 panelSize = new Vector2(460f, 620f);
@@ -23,10 +23,10 @@ public class PlayerDebugHUD : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(toggleKey))
-        {
-            showDebug = !showDebug;
-        }
+        // if (Input.GetKeyDown(toggleKey))
+        // {
+        //     showDebug = !showDebug;
+        // }
     }
 
     private void OnGUI()

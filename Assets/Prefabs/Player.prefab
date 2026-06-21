@@ -306,7 +306,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 0.7, y: 1.88}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.0001
 --- !u!50 &3259787423061718583
 Rigidbody2D:
   serializedVersion: 5
@@ -451,7 +451,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDebugHUD
   showDebug: 0
-  toggleKey: 104
   fontSize: 8
   screenOffset: {x: 10, y: 10}
   panelSize: {x: 420, y: 430}
