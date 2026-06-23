@@ -65,10 +65,10 @@ public class PlayerDebugHUD : MonoBehaviour
         
         
 
-        // DrawLine("Movement", true);
-        // DrawLine($"Velocity: X {player.rb.linearVelocity.x:0.00} / Y {player.rb.linearVelocity.y:0.00}");
-        // DrawLine($"Facing Direction: {player.facingDirection}");
-        // GUILayout.Space(6f);
+        DrawLine("Movement", true);
+        DrawLine($"Velocity: X {player.rb.linearVelocity.x:0.00} / Y {player.rb.linearVelocity.y:0.00}");
+        DrawLine($"Facing Direction: {player.facingDirection}");
+        GUILayout.Space(6f);
 
         DrawLine("Collision", true);
         DrawLine($"Ground Detected:           {player.groundDetected}");

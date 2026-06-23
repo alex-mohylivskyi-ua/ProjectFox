@@ -177,8 +177,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Entity_Collision
   groundCheck: {fileID: 6398093530249271536}
-  groundCheckDistance: 1.3
-  groundCheckSize: {x: 0.65, y: 0.08}
+  groundCheckDistance: 1.33
+  groundCheckSize: {x: 0.65, y: 0.12}
   oneWayPlatformTopTolerance: 0.05
   oneWayPlatformMaxLandingDistance: 0.08
   topWallCheck: {fileID: 1841620182968535892}
@@ -452,7 +452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e82a3c51b0e340c9af4345daa383905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDebugHUD
-  showDebug: 0
+  showDebug: 1
   fontSize: 8
   screenOffset: {x: 10, y: 10}
   panelSize: {x: 420, y: 430}

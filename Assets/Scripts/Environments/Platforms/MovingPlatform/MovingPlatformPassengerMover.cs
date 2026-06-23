@@ -48,7 +48,8 @@ public class MovingPlatformPassengerMover : MonoBehaviour
                 continue;
             }
 
-            passengerRb.position += platformDelta;
+            // passengerRb.MovePosition(passengerRb.position + platformDelta); TO CHECK why
+            passengerRb.transform.position += (Vector3)platformDelta;
         }
     }
 
