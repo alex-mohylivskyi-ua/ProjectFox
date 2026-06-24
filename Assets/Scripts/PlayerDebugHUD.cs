@@ -8,10 +8,11 @@ public class PlayerDebugHUD : MonoBehaviour
     // [SerializeField] private KeyCode toggleKey = KeyCode.F1;
     [SerializeField] private int fontSize = 10;
     [SerializeField] private Vector2 screenOffset = new Vector2(10f, 10f);
-    [SerializeField] private Vector2 panelSize = new Vector2(460f, 620f);
+    [SerializeField] private Vector2 panelSize = new Vector2(460f, 820f);
 
     private Player player;
     private PlayerOneWayPlatformDrop oneWayPlatformDrop;
+    private MovingPlatformPassengerMover[] movingPlatformMovers;
     private GUIStyle labelStyle;
     private GUIStyle boxStyle;
 
@@ -19,6 +20,7 @@ public class PlayerDebugHUD : MonoBehaviour
     {
         player = GetComponent<Player>();
         oneWayPlatformDrop = GetComponent<PlayerOneWayPlatformDrop>();
+        RefreshMovingPlatformMovers();
     }
 
     private void Update()
@@ -54,31 +56,31 @@ public class PlayerDebugHUD : MonoBehaviour
         DrawLine($"Current State:  {player.CurrentStateName}");
         DrawLine($"Previous State: {player.PreviousStateName}");
         GUILayout.Space(6f);
-
-        // DrawLine("Input", true);
-        // DrawLine($"Move: X {player.moveInput.x:0.00} / Y {player.moveInput.y:0.00}");
-        // DrawLine($"Jump Pressed:  {player.inputReader.jumpPressed}");
-        // DrawLine($"Jump Held:     {player.inputReader.jumpHeld}");
-        // DrawLine($"Attack Pressed:{player.inputReader.attackPressed}");
-        // DrawLine($"Dash Pressed:  {player.inputReader.dashPressed}");
-        // GUILayout.Space(6f);
         
         
 
         DrawLine("Movement", true);
         DrawLine($"Velocity: X {player.rb.linearVelocity.x:0.00} / Y {player.rb.linearVelocity.y:0.00}");
+        DrawLine($"Position: X {player.transform.position.x:0.00} / Y {player.transform.position.y:0.00}");
         DrawLine($"Facing Direction: {player.facingDirection}");
         GUILayout.Space(6f);
+        
+        DrawMovingPlatformDebug();
 
         DrawLine("Collision", true);
-        DrawLine($"Ground Detected:           {player.groundDetected}");
-        DrawLine($"Wall:               {player.wallDetected}");
-        DrawLine($"Wall Slide Surface: {player.wallSlideSurfaceDetected}");
+        DrawLine($"Grounded / Ground Detected: {player.groundDetected}");
+        DrawLine($"Wall Detected:              {player.wallDetected}");
+        DrawLine($"Wall Slide Surface:         {player.wallSlideSurfaceDetected}");
         GUILayout.Space(6f);
+
         
+        GUILayout.Space(6f);
+
         DrawLine("Ground Hit Debug", true);
         DrawLine($"Hit Detected:       {player.debugGroundHitDetected}");
         DrawLine($"Hit Object:         {player.debugGroundHitName}");
+        DrawLine($"Is Moving Platform: {player.debugGroundHitIsMovingPlatform}");
+        DrawLine($"Moving Platform:    {player.debugGroundHitMovingPlatformName}");
         DrawLine($"Is One Way:         {player.debugGroundHitIsOneWayPlatform}");
         DrawLine($"One Way Valid:      {player.debugOneWayGroundHitValid}");
         DrawLine($"GroundCheck Y:      {player.debugGroundCheckY:0.000}");
@@ -88,14 +90,6 @@ public class PlayerDebugHUD : MonoBehaviour
         DrawLine($"Top Tolerance:      {player.debugOneWayPlatformTopTolerance:0.000}");
         DrawLine($"Max Landing Dist:   {player.debugOneWayPlatformMaxLandingDistance:0.000}");
         GUILayout.Space(6f);
-
-        // DrawLine("Jump", true);
-        // DrawLine($"Jump Buffered:          {player.jumpBuffered}");
-        // DrawLine($"Jump Buffer Left:       {player.jumpBufferTimeLeft:0.000}");
-        // DrawLine($"Coyote Available:       {player.canUseCoyoteJump}");
-        // DrawLine($"Coyote Left:            {player.coyoteTimeLeft:0.000}");
-        // DrawLine($"Buffered Jump Released: {player.bufferedJumpReleased}");
-        // GUILayout.Space(6f);
 
         DrawLine("One Way Platform", true);
 
@@ -115,6 +109,106 @@ public class PlayerDebugHUD : MonoBehaviour
         }
 
         GUILayout.EndArea();
+    }
+
+    private void DrawMovingPlatformDebug()
+    {
+        MovingPlatformPassengerMover attachedPlatform = GetAttachedMovingPlatform();
+        MovingPlatformPassengerMover groundHitPlatform = GetGroundHitMovingPlatform();
+        MovingPlatformPassengerMover debugPlatform = attachedPlatform != null ? attachedPlatform : groundHitPlatform;
+
+        DrawLine("Moving Platform", true);
+        DrawLine($"Player On Moving Platform:       {player.debugGroundHitIsMovingPlatform}");
+        DrawLine($"Ground Hit Moving Platform:      {player.debugGroundHitMovingPlatformName}");
+        DrawLine($"Player Attached To Platform:     {attachedPlatform != null}");
+
+        if (debugPlatform == null)
+        {
+            DrawLine("Attached Platform:               None");
+            DrawLine("Platform Delta:                  X 0.00 / Y 0.00");
+            DrawLine("Applied Passenger Delta:         X 0.00 / Y 0.00");
+            DrawLine("Platform Passenger Count:        0");
+            return;
+        }
+
+        Vector2 platformDelta = debugPlatform.LastPlatformDelta;
+        Vector2 appliedPassengerDelta = debugPlatform.LastAppliedPassengerDelta;
+
+        DrawLine($"Debug Platform:                  {debugPlatform.PlatformName}");
+        DrawLine($"Attached Platform:               {(attachedPlatform != null ? attachedPlatform.PlatformName : "None")}");
+        DrawLine($"Platform Delta:                  X {platformDelta.x:0.000} / Y {platformDelta.y:0.000}");
+        DrawLine($"Applied Passenger Delta:         X {appliedPassengerDelta.x:0.000} / Y {appliedPassengerDelta.y:0.000}");
+        DrawLine($"Platform Passenger Count:        {debugPlatform.PassengerCount}");
+        DrawLine($"Last Attach Reject Reason:       {debugPlatform.LastAttachRejectReason}");
+        DrawLine($"Last Detach Reason:              {debugPlatform.LastDetachReason}");
+        DrawLine($"Last Contact Normal Y:           {debugPlatform.LastContactNormalY:0.000}");
+        DrawLine($"Last Had Top Contact:            {debugPlatform.LastHadTopContact}");
+        DrawLine($"Last Bounds Top Check:           {debugPlatform.LastPassedBoundsTopCheck}");
+        DrawLine($"Last Attached Passenger:         {debugPlatform.LastAttachedPassengerName}");
+        DrawLine($"Last Detached Passenger:         {debugPlatform.LastDetachedPassengerName}");
+    }
+    
+    private MovingPlatformPassengerMover GetGroundHitMovingPlatform()
+    {
+        if (movingPlatformMovers == null || movingPlatformMovers.Length == 0)
+        {
+            RefreshMovingPlatformMovers();
+        }
+
+        for (int i = 0; i < movingPlatformMovers.Length; i++)
+        {
+            MovingPlatformPassengerMover mover = movingPlatformMovers[i];
+
+            if (mover == null)
+            {
+                continue;
+            }
+
+            if (mover.PlatformName == player.debugGroundHitMovingPlatformName)
+            {
+                return mover;
+            }
+        }
+
+        return null;
+    }
+
+    private MovingPlatformPassengerMover GetAttachedMovingPlatform()
+    {
+        if (player == null || player.rb == null)
+        {
+            return null;
+        }
+
+        if (movingPlatformMovers == null || movingPlatformMovers.Length == 0)
+        {
+            RefreshMovingPlatformMovers();
+        }
+
+        for (int i = 0; i < movingPlatformMovers.Length; i++)
+        {
+            MovingPlatformPassengerMover mover = movingPlatformMovers[i];
+
+            if (mover == null)
+            {
+                continue;
+            }
+
+            if (mover.HasPassenger(player.rb))
+            {
+                return mover;
+            }
+        }
+
+        return null;
+    }
+
+    private void RefreshMovingPlatformMovers()
+    {
+        movingPlatformMovers = FindObjectsByType<MovingPlatformPassengerMover>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
     }
 
     private void DrawLine(string text, bool header = false)

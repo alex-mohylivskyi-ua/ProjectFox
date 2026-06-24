@@ -23,11 +23,13 @@ public class Entity_Collision : MonoBehaviour
 
     public float groundCheckDistanceValue => groundCheckDistance;
     public LayerMask whatIsGroundValue => whatIsGround;
-    
+
     // HUD start
     public bool debugGroundHitDetected { get; private set; }
     public string debugGroundHitName { get; private set; } = "None";
     public bool debugGroundHitIsOneWayPlatform { get; private set; }
+    public bool debugGroundHitIsMovingPlatform { get; private set; }
+    public string debugGroundHitMovingPlatformName { get; private set; } = "None";
     public bool debugOneWayGroundHitValid { get; private set; }
     public float debugGroundCheckY { get; private set; }
     public float debugGroundCastBottomY { get; private set; }
@@ -35,7 +37,6 @@ public class Entity_Collision : MonoBehaviour
     public float debugDistanceToPlatformTop { get; private set; }
     public float debugOneWayPlatformTopTolerance => oneWayPlatformTopTolerance;
     public float debugOneWayPlatformMaxLandingDistance => oneWayPlatformMaxLandingDistance;
-
     // HUD end
 
     public void HandleCollisionDetection(int facingDirection)
@@ -79,12 +80,14 @@ public class Entity_Collision : MonoBehaviour
         wallSlideSurfaceDetected = topWallHit && bottomWallHit;
         groundDetected = IsValidGroundHit(groundHit);
     }
-    
+
     private bool IsValidGroundHit(RaycastHit2D groundHit)
     {
         debugGroundHitDetected = groundHit;
         debugGroundHitName = groundHit ? groundHit.collider.name : "None";
         debugGroundHitIsOneWayPlatform = false;
+        debugGroundHitIsMovingPlatform = false;
+        debugGroundHitMovingPlatformName = "None";
         debugOneWayGroundHitValid = false;
         debugGroundCheckY = groundCheck != null ? groundCheck.position.y : 0f;
         debugGroundCastBottomY = groundCheck != null
@@ -98,20 +101,28 @@ public class Entity_Collision : MonoBehaviour
             return false;
         }
 
+        MovingPlatformPassengerMover movingPlatform = groundHit.collider.GetComponentInParent<MovingPlatformPassengerMover>();
+
+        if (movingPlatform != null)
+        {
+            debugGroundHitIsMovingPlatform = true;
+            debugGroundHitMovingPlatformName = movingPlatform.PlatformName;
+        }
+
         OneWayPlatform oneWayPlatform = groundHit.collider.GetComponent<OneWayPlatform>();
 
         if (oneWayPlatform == null)
         {
             return true;
         }
-        
+
         debugGroundHitIsOneWayPlatform = true;
 
         if (groundCheck == null)
         {
             return false;
         }
-        
+
         debugPlatformTopY = groundHit.collider.bounds.max.y;
         debugDistanceToPlatformTop = debugGroundCastBottomY - debugPlatformTopY;
 

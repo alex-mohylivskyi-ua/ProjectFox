@@ -6,10 +6,7 @@ using UnityEngine;
 //     Movement Mode: Activated
 //     Path Mode: PingPong
 //     Start Moving On Awake: false
-// Wait At Point Duration: 0
-
-
-
+//     Wait At Point Duration: 0
 
 public class MovingPlatform : MonoBehaviour
 {
@@ -62,7 +59,7 @@ public class MovingPlatform : MonoBehaviour
         {
             platform = platformRb.transform;
         }
-        
+
         if (passengerMover == null && platform != null)
         {
             passengerMover = platform.GetComponent<MovingPlatformPassengerMover>();
@@ -73,6 +70,11 @@ public class MovingPlatform : MonoBehaviour
             Debug.LogError($"{nameof(MovingPlatform)} on {name} needs a platform Rigidbody2D reference.", this);
             enabled = false;
             return;
+        }
+
+        if (passengerMover == null)
+        {
+            Debug.LogWarning($"{nameof(MovingPlatform)} on {name} has no {nameof(MovingPlatformPassengerMover)}. Passengers will not be carried.", this);
         }
 
         platformRb.bodyType = RigidbodyType2D.Kinematic;
@@ -176,7 +178,7 @@ public class MovingPlatform : MonoBehaviour
             targetPosition,
             speed * Time.fixedDeltaTime
         );
-        
+
         Vector2 platformDelta = nextPosition - currentPosition;
 
         platformRb.MovePosition(nextPosition);
@@ -190,11 +192,6 @@ public class MovingPlatform : MonoBehaviour
 
     private void ReachPoint()
     {
-        if (movementMode == MovementMode.Activated)
-        {
-            isMoving = false;
-        }
-
         if (waitAtPointDuration > 0)
         {
             if (waitCoroutine != null)
@@ -207,6 +204,11 @@ public class MovingPlatform : MonoBehaviour
         }
 
         SelectNextPoint();
+
+        if (movementMode == MovementMode.Activated)
+        {
+            isMoving = false;
+        }
     }
 
     private IEnumerator WaitAtPoint()
@@ -216,6 +218,11 @@ public class MovingPlatform : MonoBehaviour
         yield return new WaitForSeconds(waitAtPointDuration);
 
         SelectNextPoint();
+
+        if (movementMode == MovementMode.Activated)
+        {
+            isMoving = false;
+        }
 
         isWaiting = false;
         waitCoroutine = null;

@@ -31,6 +31,8 @@ public class Entity : MonoBehaviour
     public float debugDistanceToPlatformTop => collision != null ? collision.debugDistanceToPlatformTop : 0f;
     public float debugOneWayPlatformTopTolerance => collision != null ? collision.debugOneWayPlatformTopTolerance : 0f;
     public float debugOneWayPlatformMaxLandingDistance => collision != null ? collision.debugOneWayPlatformMaxLandingDistance : 0f;
+    public bool debugGroundHitIsMovingPlatform => collision != null && collision.debugGroundHitIsMovingPlatform;
+    public string debugGroundHitMovingPlatformName => collision != null ? collision.debugGroundHitMovingPlatformName : "None";
 
     // HUD end
     
