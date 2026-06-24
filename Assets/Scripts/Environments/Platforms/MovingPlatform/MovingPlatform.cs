@@ -38,6 +38,14 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField, Min(0f)] private float waitAtPointDuration = 0.25f;
     [SerializeField] private bool startMovingOnAwake = true;
 
+    [Header("Ease")]
+    [SerializeField] private bool useEase = true;
+    [SerializeField, Min(0f)] private float easeInDuration = 0.35f;
+    [SerializeField, Min(0f)] private float easeOutDistance = 0.5f;
+    [SerializeField, Range(0.05f, 1f)] private float minimumEaseSpeedMultiplier = 0.15f;
+    [SerializeField] private AnimationCurve easeInCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    [SerializeField] private AnimationCurve easeOutCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+
     [Header("Activation")]
     [SerializeField] private MovementMode movementMode = MovementMode.Automatic;
 
@@ -47,6 +55,9 @@ public class MovingPlatform : MonoBehaviour
     private bool isMoving;
     private bool isWaiting;
     private Coroutine waitCoroutine;
+    private float moveTime;
+    private Vector2 currentSegmentStartPosition;
+    private float currentSegmentDistance;
 
     private void Awake()
     {
@@ -97,7 +108,12 @@ public class MovingPlatform : MonoBehaviour
         }
 
         currentPointIndex = points.Length > 1 ? 1 : 0;
-        isMoving = movementMode == MovementMode.Automatic && startMovingOnAwake;
+        BeginCurrentSegment();
+
+        if (movementMode == MovementMode.Automatic && startMovingOnAwake)
+        {
+            StartMoving();
+        }
     }
 
     private void FixedUpdate()
@@ -117,7 +133,7 @@ public class MovingPlatform : MonoBehaviour
             return;
         }
 
-        isMoving = true;
+        StartMoving();
     }
 
     public void Stop()
@@ -132,7 +148,13 @@ public class MovingPlatform : MonoBehaviour
             return;
         }
 
-        isMoving = !isMoving;
+        if (isMoving)
+        {
+            Stop();
+            return;
+        }
+
+        StartMoving();
     }
 
     public void MoveToNextPoint()
@@ -147,7 +169,55 @@ public class MovingPlatform : MonoBehaviour
             return;
         }
 
+        StartMoving();
+    }
+
+    private void StartMoving()
+    {
         isMoving = true;
+        moveTime = 0f;
+    }
+
+    private void BeginCurrentSegment()
+    {
+        if (points == null || points.Length == 0)
+        {
+            currentSegmentStartPosition = platformRb != null ? platformRb.position : Vector2.zero;
+            currentSegmentDistance = 0f;
+            return;
+        }
+
+        currentSegmentStartPosition = platformRb.position;
+        currentSegmentDistance = Vector2.Distance(currentSegmentStartPosition, points[currentPointIndex].position);
+    }
+
+    private float GetCurrentSpeed(Vector2 currentPosition, Vector2 targetPosition)
+    {
+        if (!useEase)
+        {
+            return speed;
+        }
+
+        float speedMultiplier = 1f;
+
+        if (easeInDuration > 0f)
+        {
+            float easeInTime = Mathf.Clamp01(moveTime / easeInDuration);
+            float easeInMultiplier = easeInCurve != null ? easeInCurve.Evaluate(easeInTime) : easeInTime;
+            speedMultiplier = Mathf.Min(speedMultiplier, easeInMultiplier);
+        }
+
+        if (easeOutDistance > 0f)
+        {
+            float distanceToTarget = Vector2.Distance(currentPosition, targetPosition);
+            float easeOutTime = Mathf.Clamp01(distanceToTarget / easeOutDistance);
+            float easeOutMultiplier = easeOutCurve != null ? easeOutCurve.Evaluate(easeOutTime) : easeOutTime;
+            speedMultiplier = Mathf.Min(speedMultiplier, easeOutMultiplier);
+        }
+
+        speedMultiplier = Mathf.Clamp(speedMultiplier, minimumEaseSpeedMultiplier, 1f);
+
+        return speed * speedMultiplier;
     }
 
     private void CachePathPoints()
@@ -170,13 +240,15 @@ public class MovingPlatform : MonoBehaviour
 
     private void MoveToCurrentPoint()
     {
+        moveTime += Time.fixedDeltaTime;
+
         Vector2 currentPosition = platformRb.position;
         Vector2 targetPosition = points[currentPointIndex].position;
 
         Vector2 nextPosition = Vector2.MoveTowards(
             currentPosition,
             targetPosition,
-            speed * Time.fixedDeltaTime
+            GetCurrentSpeed(currentPosition, targetPosition) * Time.fixedDeltaTime
         );
 
         Vector2 platformDelta = nextPosition - currentPosition;
@@ -244,6 +316,9 @@ public class MovingPlatform : MonoBehaviour
                 SelectNextOncePoint();
                 break;
         }
+
+        BeginCurrentSegment();
+        moveTime = 0f;
     }
 
     private void SelectNextLoopPoint()
