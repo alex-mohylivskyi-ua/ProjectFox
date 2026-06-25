@@ -204,7 +204,7 @@ public class MovingPlatformPassengerMover : MonoBehaviour
             return;
         }
 
-        pendingDetachTimes[passengerRb] = Time.time + detachGraceDuration;
+        pendingDetachTimes[passengerRb] = Time.fixedTime + detachGraceDuration;
         lastDetachReason = "Collision exit scheduled";
     }
 
@@ -222,7 +222,7 @@ public class MovingPlatformPassengerMover : MonoBehaviour
             Rigidbody2D passengerRb = pendingDetach.Key;
             float detachTime = pendingDetach.Value;
 
-            if (passengerRb == null || Time.time >= detachTime)
+            if (passengerRb == null || Time.fixedTime >= detachTime)
             {
                 readyToDetach ??= new List<Rigidbody2D>();
                 readyToDetach.Add(passengerRb);

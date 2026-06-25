@@ -25,7 +25,7 @@ public class PlayerInputSpawnHandler : MonoBehaviour
     {
         playerInputManager = GetComponent<PlayerInputManager>();
 
-        if (cameraTargetGroup == null)
+        if (registerPlayersToCamera && cameraTargetGroup == null)
         {
             Debug.LogWarning($"{nameof(PlayerInputSpawnHandler)} on {name} has no CameraTargetGroup2D reference.", this);
         }
@@ -83,15 +83,15 @@ public class PlayerInputSpawnHandler : MonoBehaviour
             return;
         }
 
+        if (joinedPlayers.Contains(player))
+        {
+            return;
+        }
+        
         int playerIndex = joinedPlayers.Count;
 
         MovePlayerToSpawnPoint(player.transform, playerIndex);
-
-        if (!joinedPlayers.Contains(player))
-        {
-            joinedPlayers.Add(player);
-        }
-
+        joinedPlayers.Add(player);
         RegisterPlayerToCamera(player);
 
         if (logPlayerJoin)
