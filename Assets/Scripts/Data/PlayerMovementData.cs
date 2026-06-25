@@ -17,6 +17,10 @@ public class PlayerMovementData : ScriptableObject
     [Header("Jump cut")]
     [Range(0.1f, 1f)] public float jumpCutMultiplier = 0.4f;
     [Range(0f, 20f)] public float jumpCutMinVelocity = 0f;
+    
+    [Header("Ladder")]
+    [Min(0f)] public float ladderClimbSpeed = 4f;
+    [Min(0f)] public float ladderHorizontalSpeedMultiplier = 0.5f;
 
     [Header("Wall jump")]
     public Vector2 wallJumpForce = new Vector2(6f, 12f);

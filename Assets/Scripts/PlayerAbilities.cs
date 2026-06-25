@@ -15,6 +15,7 @@ public class PlayerAbilities : MonoBehaviour
     [SerializeField] private bool canWallSlide = true;
     [SerializeField] private bool canWallJump = true;
     [SerializeField] private bool canDoubleJump = false;
+    [SerializeField] private bool canClimbLadder = true;
 
     [Header("Combat abilities")]
     [SerializeField] private bool canAirAttack = true;
@@ -24,6 +25,7 @@ public class PlayerAbilities : MonoBehaviour
     public bool CanWallJump => canWallJump;
     public bool CanDoubleJump => canDoubleJump;
     public bool CanAirAttack => canAirAttack;
+    public bool CanClimbLadder => canClimbLadder;
 
     public void UnlockDash()
     {

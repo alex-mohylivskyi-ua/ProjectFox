@@ -15,6 +15,36 @@ public class PlayerMovement
     // {
     //     rb.velocity = new Vector2(xInput * speed, rb.velocity.y);
     // }
+    
+    public void ClimbLadder(float xInput, float yInput, float climbSpeed, float horizontalSpeedMultiplier)
+    {
+        float xVelocity = xInput * player.MovementData.moveSpeed * horizontalSpeedMultiplier;
+        float yVelocity = yInput * climbSpeed;
+
+        player.SetVelocity(xVelocity, yVelocity);
+    }
+    
+    public void ClimbLadderCentered(float yInput, float climbSpeed, float ladderCenterX, float centerSpeed, float snapDistance)
+    {
+        float xDifference = ladderCenterX - rb.position.x;
+        float xVelocity = Mathf.Sign(xDifference) * centerSpeed;
+
+        if (Mathf.Abs(xDifference) <= snapDistance)
+        {
+            rb.position = new Vector2(ladderCenterX, rb.position.y);
+            xVelocity = 0f;
+        }
+
+        float yVelocity = yInput * climbSpeed;
+
+        player.SetVelocity(xVelocity, yVelocity);
+    }
+
+    public void JumpFromLadder(float jumpForce)
+    {
+        
+        player.SetVelocity(rb.linearVelocity.x, jumpForce);
+    }
 
     public void Jump(float jumpForce)
     {
@@ -96,6 +126,12 @@ public class PlayerMovement
         newYVelocity = Mathf.Max(newYVelocity, -maxFallSpeed);
 
         player.SetVelocity(rb.linearVelocity.x, newYVelocity);
+    }
+
+    public void PlayerAlignCenter(Ladder ladder)
+    {
+        float ladderCenterX = ladder.GetComponent<BoxCollider2D>().bounds.center.x;
+        player.transform.position = new Vector2(ladderCenterX, player.transform.position.y);
     }
 
 }

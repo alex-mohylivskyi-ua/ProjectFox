@@ -18,6 +18,15 @@ public class Player : Entity
     public PlayerAbilities abilities { get; private set; }
     private PlayerOneWayPlatformDrop oneWayPlatformDrop;
     private PlayerInteraction interaction;
+    private Ladder currentLadder;
+    public Ladder CurrentLadder => currentLadder;
+    public bool canUseLadder => abilities.CanClimbLadder && isTouchingLadder && !isOnLadderJumpCooldown;
+    public bool isTouchingLadder => currentLadder != null;
+    public bool isOnLadderJumpCooldown => ladderJumpCooldownTimer > 0;
+    private float ladderJumpCooldownTimer;
+    
+    [Header("Ladder")]
+    [SerializeField, Min(0f)] private float ladderJumpCooldownDuration = 0.4f;
     
     [Header("One way platform")]
     [SerializeField, Min(0f)] private float ignoreGroundAfterOneWayDropDuration = 0.15f;
@@ -51,6 +60,7 @@ public class Player : Entity
     public Player_DashState dashState { get; private set; }
     public Player_BasicAttackState basicAttackState { get; private set; }
     public Player_JumpAttackState jumpAttackState { get; private set; }
+    public Player_LadderState ladderState { get; private set; }
     public Player_DeadState deadState { get; private set; }
     
     
@@ -103,6 +113,7 @@ public class Player : Entity
         abilities = GetComponent<PlayerAbilities>();
         oneWayPlatformDrop = GetComponent<PlayerOneWayPlatformDrop>();
         interaction = GetComponent<PlayerInteraction>();
+        ladderState = new Player_LadderState(this, stateMachine, "ladder");
         
         if (abilities == null)
         {
@@ -150,6 +161,7 @@ public class Player : Entity
         
         droppedThroughOneWayPlatformThisFrame = false;
         HandleOneWayPlatformGroundIgnoreTimer();
+        HandleLadderJumpCooldown();
         
         if (oneWayPlatformDrop != null && oneWayPlatformDrop.TryDropThroughPlatform())
         {
@@ -253,5 +265,31 @@ public class Player : Entity
     public void ConsumeCoyoteTime()
     {
         coyoteTimer = 0;
+    }
+    
+    public void SetCurrentLadder(Ladder ladder)
+    {
+        currentLadder = ladder;
+    }
+
+    public void ClearCurrentLadder(Ladder ladder)
+    {
+        if (currentLadder != ladder)
+        {
+            return;
+        }
+
+        currentLadder = null;
+    }
+    
+    public void StartLadderJumpCooldown()
+    {
+        ladderJumpCooldownTimer = ladderJumpCooldownDuration;
+    }
+
+    private void HandleLadderJumpCooldown()
+    {
+        if (ladderJumpCooldownTimer > 0)
+            ladderJumpCooldownTimer -= Time.deltaTime;
     }
 }

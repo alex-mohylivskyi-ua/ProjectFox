@@ -61,7 +61,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1358800652554049336
 Transform:
   m_ObjectHideFlags: 0
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   facingRight: 1
   facingDirection: 1
+  ladderJumpCooldownDuration: 0.4
   ignoreGroundAfterOneWayDropDuration: 0.15
   movementData: {fileID: 11400000, guid: 8be3a437af4c9474cb1bcdf428874d94, type: 2}
   combatData: {fileID: 11400000, guid: 05d8fd2b5f8ed40439de2aeca71edafc, type: 2}
@@ -203,6 +204,7 @@ MonoBehaviour:
   canWallSlide: 1
   canWallJump: 1
   canDoubleJump: 0
+  canClimbLadder: 1
   canAirAttack: 1
 --- !u!212 &8497135016175273812
 SpriteRenderer:
@@ -418,6 +420,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 82fd4aa5-c519-44db-9af4-e28238c2f2ab
     m_ActionName: Player/Join
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6ffdc58b-6c95-4295-9f92-196defe309bf
+    m_ActionName: 'Player/Interact[/Keyboard/e]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -752,7 +758,7 @@ Transform:
   m_GameObject: {fileID: 9173573850035195932}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: 0, z: 0}
+  m_LocalPosition: {x: 0.46, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

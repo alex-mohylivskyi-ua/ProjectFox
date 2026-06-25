@@ -25,6 +25,12 @@ public class Player_AiredState : PlayerState
             player.MovementData.maxFallSpeed
         );
         
+        if (player.canUseLadder && Mathf.Abs(player.moveInput.y) > 0.1f)
+        {
+            stateMachine.ChangeState(player.ladderState);
+            return;
+        }
+        
         if (player.inputReader.attackPressed && player.abilities.CanAirAttack)
         {
             stateMachine.ChangeState(player.jumpAttackState);

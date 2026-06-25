@@ -17,6 +17,12 @@ public class Player_GroundedState : PlayerState
             return;
         }
         
+        if (player.canUseLadder && Mathf.Abs(player.moveInput.y) > 0.1f)
+        {
+            stateMachine.ChangeState(player.ladderState);
+            return;
+        }
+        
         if (player.jumpBuffered && (player.groundDetected || player.canUseCoyoteJump))
         {
             player.ConsumeJumpBuffer();
