@@ -127,11 +127,4 @@ public class PlayerMovement
 
         player.SetVelocity(rb.linearVelocity.x, newYVelocity);
     }
-
-    public void PlayerAlignCenter(Ladder ladder)
-    {
-        float ladderCenterX = ladder.GetComponent<BoxCollider2D>().bounds.center.x;
-        player.transform.position = new Vector2(ladderCenterX, player.transform.position.y);
-    }
-
 }

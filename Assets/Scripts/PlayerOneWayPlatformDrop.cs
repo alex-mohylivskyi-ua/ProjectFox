@@ -3,6 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerOneWayPlatformDrop : MonoBehaviour
 {
     [Header("Detection")]

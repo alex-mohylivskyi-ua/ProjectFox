@@ -57,15 +57,9 @@ public class PlayerDebugHUD : MonoBehaviour
         DrawLine($"Previous State: {player.PreviousStateName}");
         GUILayout.Space(6f);
         
+        // DrawMovementDebug();
         
-
-        DrawLine("Movement", true);
-        DrawLine($"Velocity: X {player.rb.linearVelocity.x:0.00} / Y {player.rb.linearVelocity.y:0.00}");
-        DrawLine($"Position: X {player.transform.position.x:0.00} / Y {player.transform.position.y:0.00}");
-        DrawLine($"Facing Direction: {player.facingDirection}");
-        GUILayout.Space(6f);
-        
-        DrawMovingPlatformDebug();
+        // DrawMovingPlatformDebug();
 
         DrawLine("Collision", true);
         DrawLine($"Grounded / Ground Detected: {player.groundDetected}");
@@ -83,8 +77,8 @@ public class PlayerDebugHUD : MonoBehaviour
         DrawLine($"Moving Platform:    {player.debugGroundHitMovingPlatformName}");
         DrawLine($"Is One Way:         {player.debugGroundHitIsOneWayPlatform}");
         DrawLine($"One Way Valid:      {player.debugOneWayGroundHitValid}");
-        DrawLine($"GroundCheck Y:      {player.debugGroundCheckY:0.000}");
-        DrawLine($"Cast Bottom Y:      {player.debugGroundCastBottomY:0.000}");
+        // DrawLine($"Player GroundCheck position Y:      {player.debugGroundCheckY:0.000}");
+        DrawLine($"Player BoxCast Bottom Y:      {player.debugGroundCastBottomY:0.000}");
         DrawLine($"Platform Top Y:     {player.debugPlatformTopY:0.000}");
         DrawLine($"Distance To Top:    {player.debugDistanceToPlatformTop:0.000}");
         DrawLine($"Top Tolerance:      {player.debugOneWayPlatformTopTolerance:0.000}");
@@ -109,6 +103,15 @@ public class PlayerDebugHUD : MonoBehaviour
         }
 
         GUILayout.EndArea();
+    }
+
+    private void DrawMovementDebug()
+    {
+        DrawLine("Movement", true);
+        DrawLine($"Velocity: X {player.rb.linearVelocity.x:0.00} / Y {player.rb.linearVelocity.y:0.00}");
+        DrawLine($"Position: X {player.transform.position.x:0.00} / Y {player.transform.position.y:0.00}");
+        DrawLine($"Facing Direction: {player.facingDirection}");
+        GUILayout.Space(6f);
     }
 
     private void DrawMovingPlatformDebug()

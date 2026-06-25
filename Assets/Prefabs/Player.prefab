@@ -180,7 +180,7 @@ MonoBehaviour:
   groundCheck: {fileID: 6398093530249271536}
   groundCheckDistance: 1.33
   groundCheckSize: {x: 0.65, y: 0.12}
-  oneWayPlatformTopTolerance: 0.05
+  oneWayPlatformTopTolerance: 0.1
   oneWayPlatformMaxLandingDistance: 0.08
   topWallCheck: {fileID: 1841620182968535892}
   bottomWallCheck: {fileID: 4544602782814031290}
